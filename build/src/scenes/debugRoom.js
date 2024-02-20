@@ -1,5 +1,6 @@
 var player;
 var cursors;
+var visibilidad;
 
 class debugRoom extends Phaser.Scene {
   constructor() {
@@ -9,7 +10,7 @@ class debugRoom extends Phaser.Scene {
   preload() {}
 
   create() {
-    this.velocidadSalto = 450
+    this.velocidadSalto = 450;
     this.velocidadcaminar = 200;
     // load the map
     const map = this.make.tilemap({ key: "map" });
@@ -17,6 +18,7 @@ class debugRoom extends Phaser.Scene {
 
     // Crear las capas
     const layer3 = map.createLayer("Background", tiles, 0, 0);
+    const layer4 = map.createLayer("Dangers", tiles, 0, 0);
     const layer1 = map.createLayer("MidGround", tiles, 0, 0);
     layer1.setCollisionByExclusion([-1]);
     const layer2 = map.createLayer("Foreground", tiles, 0, 0);
@@ -24,6 +26,8 @@ class debugRoom extends Phaser.Scene {
     // Asignar profundidades a las capas
     layer3.setDepth(0); // Fondo
     layer1.setDepth(1); // Mid
+
+    layer4.setDepth(2); // Frente
     layer2.setDepth(2); // Frente
 
     // Crear el TileSprite del background
@@ -61,16 +65,14 @@ class debugRoom extends Phaser.Scene {
     this.background3.setOrigin(0, 0);
     this.background3.alpha = 0.3;
     this.background3.setTint(0x784949);
-    this.background3.setDepth(4); 
+    this.background3.setDepth(4);
 
     this.ship1 = this.add.sprite(-10, map.height / 2, "ship1");
     this.ship1.setScale(0.3); // Escala x0.5 y y0.5
     this.ship1.setTint(0xa0a0a0);
     this.ship1.setDepth(-1); // Fondo
 
-
-
-    this.player = this.physics.add.sprite(100, 1400, "playerbeta");
+    this.player = this.physics.add.sprite(100, 1300, "playerbeta");
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
 
@@ -78,6 +80,16 @@ class debugRoom extends Phaser.Scene {
     this.player.body.setSize(this.player.width - 32, this.player.height);
 
     this.physics.add.collider(this.player, layer1);
+
+    /*
+ this.physics.add.overlap(
+      this.player,
+      layer2,
+      this.colisionforeground,
+      this.finColisionforeground,
+      this
+    );
+   */
 
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
@@ -121,6 +133,7 @@ class debugRoom extends Phaser.Scene {
     this.versionLabel.alpha = 1;
     this.versionLabel.setDepth(5);
   }
+
   update(time, delta) {
     // Actualizar la posición del texto en cada fotograma para que se mantenga en la esquina inferior derecha de la pantalla
     this.events.on("resize", () => {
