@@ -9,6 +9,7 @@ class debugRoom extends Phaser.Scene {
   preload() {}
 
   create() {
+    this.velocidadSalto = 450
     this.velocidadcaminar = 200;
     // load the map
     const map = this.make.tilemap({ key: "map" });
@@ -60,14 +61,21 @@ class debugRoom extends Phaser.Scene {
     this.background3.setOrigin(0, 0);
     this.background3.alpha = 0.3;
     this.background3.setTint(0x784949);
-    this.background3.setDepth(4); // Ajustar la profundidad para que esté detrás de todas las capas
+    this.background3.setDepth(4); 
+
+    this.ship1 = this.add.sprite(-10, map.height / 2, "ship1");
+    this.ship1.setScale(0.3); // Escala x0.5 y y0.5
+    this.ship1.setTint(0xa0a0a0);
+    this.ship1.setDepth(-1); // Fondo
+
+
 
     this.player = this.physics.add.sprite(100, 1400, "playerbeta");
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
 
     this.player.setCollideWorldBounds(true);
-    this.player.body.setSize(this.player.width - 16, this.player.height);
+    this.player.body.setSize(this.player.width - 32, this.player.height);
 
     this.physics.add.collider(this.player, layer1);
 
@@ -146,7 +154,7 @@ class debugRoom extends Phaser.Scene {
 
     if (this.cursors.space.isDown && this.player.body.onFloor()) {
       this.player.play("PlayerBetaJumpStart", true);
-      this.player.body.setVelocityY(-400);
+      this.player.body.setVelocityY(-this.velocidadSalto);
     }
   }
 }

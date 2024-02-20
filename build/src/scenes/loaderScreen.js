@@ -96,38 +96,12 @@ class loaderScreen extends Phaser.Scene {
       key: "PlayerBetaJumpStart",
       frames: this.anims.generateFrameNumbers("playerbeta", {
         start: 48,
-        end: 51,
+        end: 58,
       }),
-      frameRate: 6.25,
+      frameRate: 12,
       repeat: 0,
     });
-    this.anims.create({
-      key: "PlayerBetaJumpMid",
-      frames: this.anims.generateFrameNumbers("playerbeta", {
-        start: 60,
-        end: 63,
-      }),
-      frameRate: 6.25,
-      repeat: 0,
-    });
-    this.anims.create({
-      key: "PlayerBetaJumpEnd",
-      frames: this.anims.generateFrameNumbers("playerbeta", {
-        start: 72,
-        end: 73,
-      }),
-      frameRate: 0,
-      repeat: 0,
-    });
-    this.anims.create({
-      key: "PlayerBetaFall",
-      frames: this.anims.generateFrameNumbers("playerbeta", {
-        start: 84,
-        end: 84,
-      }),
-      frameRate: 0,
-      repeat: 0,
-    });
+    
 
 
 
