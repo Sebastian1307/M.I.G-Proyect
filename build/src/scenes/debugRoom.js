@@ -128,7 +128,7 @@ class debugRoom extends Phaser.Scene {
       this.cameras.main.scrollX + 100,
       this.cameras.main.scr2llY + 50,
 
-      "Version Alpha 0.1.6",
+      "Version Alpha V.0.1.6.1",
       { fontSize: "16px", fill: "#ffffff" }
     );
 
@@ -192,7 +192,7 @@ class debugRoom extends Phaser.Scene {
     miniMapCam.ignore(this.LivesText); 
     
 
-    //this.cameras.main.fadeIn(1000);
+    this.cameras.main.fadeIn(1000);
     this.vidas = 3;
   }
 

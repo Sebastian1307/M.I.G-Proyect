@@ -108,7 +108,7 @@ class MainMenu extends Phaser.Scene {
       hudMenu.x + effectiveWidth / 2, // Alinea el texto al centro horizontalmente
       hudMenu.y + 260,
       "pixelFont",
-      "Build Version Alpha V.0.1",
+      "Build Version Alpha V.0.1.6.1",
       24
     );
     versionText.setOrigin(0.5);
@@ -144,10 +144,9 @@ class MainMenu extends Phaser.Scene {
     this.music.play(musicConfig);
 
     debugButton.on("pointerdown", () => {
+      this.cameras.main.fadeOut(3000);
       this.close2.play();
       this.music.pause();
-
-      this.cameras.main.fadeOut(3000);
       this.scene.start("debugRoom");
     });
     creditsbutton.on("pointerdown", () => {
