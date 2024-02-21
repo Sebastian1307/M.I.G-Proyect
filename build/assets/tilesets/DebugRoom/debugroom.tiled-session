@@ -17,22 +17,22 @@
             "scaleInDock": 1
         },
         "debugroomtile1.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 2,
+            "scale": 0.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 864,
-                "y": 296
+                "x": 828,
+                "y": 1194
             }
         },
         "debugroomtile1.tmx#tilesetDebugLv1_2": {
-            "scaleInDock": 2,
+            "scaleInDock": 1.5,
             "scaleInEditor": 1
         },
         "tilesetDebugLv1_2.tsx": {
             "scaleInDock": 1
         }
     },
-    "last.exportedFilePath": "D:/ProyectoMIGVideojuegos/M.I.G/build/assets/tilesets/DebugRoom",
+    "last.exportedFilePath": "E:/MIG/M.I.G-Proyect/build/assets/tilesets/DebugRoom",
     "last.externalTilesetPath": "D:/Videojuegos/Proyect_MIG/M.I.G/build/assets/tilesets/DebugRoom",
     "last.imagePath": "D:/Videojuegos/Proyect_MIG/M.I.G/build/assets/tilesets/DebugRoom",
     "map.height": 50,
