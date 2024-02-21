@@ -5,40 +5,17 @@ class debugRoom extends Phaser.Scene {
     super("debugRoom");
   }
 
-  preload() {}
+  preload() { }
 
   create() {
-    const config = {
-      // name of the controller scheme
-      name: 'WASDKeys',
-  
-      // if true then this control scheme will be used (only one scheme can be 'active' at one time)
-      active: true,
-  
-      // setup controls
-      controls: {
-          up: 'W',
-          down: 'S',
-          left: 'A',
-          right: 'D',
-          shift: 'SHIFT',
-          space: 'SPACE'
-      },
-  
-      // optional. Pass any data you want to add to the control scheme
-      data: {},
-  
-      // optional function to call whenever this control scheme is set to active
-      // scene - (optional) the scene this function is running in
-      // scheme - (optional) the control scheme object
-      onActive: function(scene, scheme) {
-          console.log(scheme.name + ' is active!');
-      }
-  }
-    this.aceleracion =2,0;
+
+    this.dashbool = true;
+    this.timerdash = 700;
+
+    this.aceleracion = 2, 0;
     this.velocidadSalto = 450;
     this.velocidadcaminar = 220;
-    
+
     // load the map
     const map = this.make.tilemap({ key: "map" });
     const tiles = map.addTilesetImage("tilesetDebugLv1_2", "tiles");
@@ -95,10 +72,10 @@ class debugRoom extends Phaser.Scene {
     this.background3.setTint(0x784949);
     this.background3.setDepth(4);
 
-  
+
 
     this.player = this.physics.add.sprite(179, 1380, "playerbeta");
-    
+
 
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
@@ -118,7 +95,7 @@ class debugRoom extends Phaser.Scene {
       map.heightInPixels - 42
     );
 
-    this.cameras.main.setZoom(1.5, 2);
+    //this.cameras.main.setZoom(1.5, 2);
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -148,36 +125,88 @@ class debugRoom extends Phaser.Scene {
     this.coordinatesText.setDepth(3); // Asegúrate de que el texto esté delante de todo
 
     this.versionText = this.add.text(
-      this.player.x + 100,
-      this.player.y +100,
-      "Version Alpha 0.1.4",
+      this.cameras.main.scrollX + 100,
+      this.cameras.main.scr2llY + 50,
+
+      "Version Alpha 0.1.6",
       { fontSize: "16px", fill: "#ffffff" }
     );
+
     this.versionText.setOrigin(0.5);
-    this.versionText.setDepth(3); // Asegúrate de que el texto esté delante de todo
+    this.versionText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
 
-    this.music = this.sound.add("ost2DebugRoom");
+    this.LivesText = this.add.text(
+      this.cameras.main.scrollX + 40,
+      this.cameras.main.scr2llY + 50,
+
+      "",
+      { fontSize: "16px", fill: "#ffffff" }
+    );
+
+    this.LivesText.setOrigin(0.5);
+    this.LivesText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
 
-    var musicConfig = {
-      mute: false,
-      volume: 0.6,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: true,
-      delay: 0,
-    };
-    this.music.play(musicConfig);
+    //this.music = this.sound.add("ost2DebugRoom");
+
+    /*
+        var musicConfig = {
+          mute: false,
+          volume: 0.6,
+          rate: 1,
+          detune: 0,
+          seek: 0,
+          loop: true,
+          delay: 0,
+        };
+        this.music.play(musicConfig);
+    */
 
 
-    this.cameras.main.fadeIn(5000);
+    // Create a mini map camera
+    const miniMapCam = this.cameras.add(this.cameras.main.width - 250, 0, 200, 150).setZoom(0.2);
+    miniMapCam.setName('miniMap');
+
+    // Render the mini map
+    miniMapCam.setBackgroundColor(0x002244);
+
+    // Add a border to the mini map
+    const graphics = this.add.graphics();
+    graphics.lineStyle(2, 0xffffff);
+    graphics.strokeRect(miniMapCam.x, miniMapCam.y, miniMapCam.width, miniMapCam.height);
+
+    // Follow the player with the mini map camera
+    miniMapCam.startFollow(this.player);
+
+    // Clamp mini map camera to map bounds
+    miniMapCam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    miniMapCam.ignore(layer3); 
+    miniMapCam.ignore(layer4); 
+    miniMapCam.ignore(layer2); 
+    miniMapCam.ignore(this.background); 
+    miniMapCam.ignore(this.background2); 
+    miniMapCam.ignore(this.background3); 
+    miniMapCam.ignore(this.coordinatesText); 
+    miniMapCam.ignore(this.versionText); 
+    miniMapCam.ignore(this.LivesText); 
+    
+
+    //this.cameras.main.fadeIn(1000);
     this.vidas = 3;
-    console.log("Cantidad de vidas:",this.vidas)
   }
 
   update(time, delta) {
+
+    //this.versionText.setScrollFactor(0);
+    this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
+    this.versionText.setPosition(this.cameras.main.scrollX + 100, this.cameras.main.scrollY + 20);
+    this.LivesText.setPosition(this.cameras.main.scrollX + 50, this.cameras.main.scrollY + 40);
+    this.LivesText.setText("Vidas: "+ this.vidas);
+
+
+    
+
     this.events.on("resize", () => {
       this.versionLabel.setPosition(
         this.cameras.main.width - 10,
@@ -187,6 +216,7 @@ class debugRoom extends Phaser.Scene {
     this.background2.tilePositionY -= 1.2;
 
     this.background3.tilePositionX -= 0.7;
+    
     if (
       this.cursors.left.isDown ^
       this.cursors.right.isDown ^
@@ -207,44 +237,54 @@ class debugRoom extends Phaser.Scene {
       this.player.play("PlayerBetaIdle3", true);
     }
 
-    if (this.cursors.space.isDown ^ this.cursors.w.isDown ^this.cursors.up.isDown && (this.player.body.onFloor()) ) {
+    if (this.cursors.space.isDown ^ this.cursors.w.isDown ^ this.cursors.up.isDown && (this.player.body.onFloor())) {
       this.player.play("PlayerBetaJumpStart", true);
       this.player.body.setVelocityY(-this.velocidadSalto);
     }
 
     //Dash
-    if(this.cursors.shift.isDown && (this.cursors.shift.isUp.duration) < 600){ 
-      this.player.body.acceleration = this.aceleracion;
-      
-   
-   }
-   if((this.cursors.shift.isDown.duration) > 600 ){
-    this.player.body.acceleration = 0;
-    console.log("Sprint deberia finalizar ")
-   
-   }
-   this.versionText.setPosition(this.cameras.x +2, this.cameras.y );
+    if (this.cursors.shift.isDown && this.timerdash > 1) {
+      console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
+      if (this.player.flipX == false) {
+        this.player.body.setVelocityX(this.velocidadcaminar * 2.5);
+      } else {
+        this.player.body.setVelocityX(-this.velocidadcaminar * 2.5);
+      }
+      this.timerdash -= 50;
+      //console.log(this.timerdash)
+      this.dashbool = false
+    }
+    if (this.cursors.shift.isUp) {
+      this.dashbool = true
+    }
+    if (this.timerdash < 700 && this.dashbool == true) {
+      this.timerdash += 15;
+      console.log("Recargando dash: ", this.timerdash)
 
-    this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
+    }
+
+
+
+
     this.coordinatesText.setText(
       `(${Math.round(this.player.x)}, ${Math.round(this.player.y)})`
     );
 
     if (this.player.body.y >= 1530) {
-      this.lostlive(this.player,this.vidas);
+      this.lostlive(this.player, this.vidas);
     }
   }
-  lostlive(player,vidas) {
-    
+  lostlive(player, vidas) {
+
 
     if (this.player.alpha < 1) {
       return;
     }
 
     player.disableBody(true, true);
-    
 
-    if (vidas > 0){
+
+    if (vidas > 0) {
       this.time.addEvent({
         delay: 1000,
         callback: this.resetPlayer(vidas),
@@ -252,19 +292,19 @@ class debugRoom extends Phaser.Scene {
         loop: false,
       });
     } else {
-      
+
       this.time.addEvent({
         delay: 5000,
         callback: this.backtomenu,
         callbackScope: this,
         loop: false,
       });
-      
+
 
     }
   }
-  
-  backtomenu(){
+
+  backtomenu() {
     this.cameras.main.fadeOut(5000);
     this.scene.start("menu");
   }
@@ -272,14 +312,14 @@ class debugRoom extends Phaser.Scene {
   resetPlayer(vidas) {
     vidas += -1;
     this.vidas = vidas;
-    console.log("Vida ahora:" ,vidas)
-    
+    console.log("Vida ahora:", vidas)
+
     var x = 179;
     var y = 1380;
     this.player.enableBody(true, x, y, true, true);
 
     this.player.alpha = 0.5;
-    console.log("Vida: ",this.vidas);
+    console.log("Vida: ", this.vidas);
     var tween = this.tweens.add({
       targets: this.player,
       y: 1380,
@@ -291,7 +331,7 @@ class debugRoom extends Phaser.Scene {
         this.player.alpha = 1;
       },
       callbackScope: this,
-      
+
     });
   }
 }
