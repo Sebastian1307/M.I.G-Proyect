@@ -21,13 +21,14 @@ class debugRoom extends Phaser.Scene {
     const layer4 = map.createLayer("Dangers", tiles, 0, 0);
     const layer1 = map.createLayer("MidGround", tiles, 0, 0);
     layer1.setCollisionByExclusion([-1]);
+
     const layer2 = map.createLayer("Foreground", tiles, 0, 0);
 
     // Asignar profundidades a las capas
     layer3.setDepth(0); // Fondo
     layer1.setDepth(1); // Mid
 
-    layer4.setDepth(2); // Frente
+    layer4.setDepth(1); // Frente
     layer2.setDepth(2); // Frente
 
     // Crear el TileSprite del background
@@ -67,12 +68,9 @@ class debugRoom extends Phaser.Scene {
     this.background3.setTint(0x784949);
     this.background3.setDepth(4);
 
-    this.ship1 = this.add.sprite(-10, map.height / 2, "ship1");
-    this.ship1.setScale(0.3); // Escala x0.5 y y0.5
-    this.ship1.setTint(0xa0a0a0);
-    this.ship1.setDepth(-1); // Fondo
+  
 
-    this.player = this.physics.add.sprite(100, 1300, "playerbeta");
+    this.player = this.physics.add.sprite(179, 1380, "playerbeta");
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
 
@@ -81,28 +79,18 @@ class debugRoom extends Phaser.Scene {
 
     this.physics.add.collider(this.player, layer1);
 
-    /*
- this.physics.add.overlap(
-      this.player,
-      layer2,
-      this.colisionforeground,
-      this.finColisionforeground,
-      this
-    );
-   */
-
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
 
     this.cameras.main.setBounds(
       0,
       0,
-      map.widthInPixels,
-      map.heightInPixels + 5
+      map.widthInPixels + 50,
+      map.heightInPixels - 42
     );
 
     this.cameras.main.setZoom(1.5, 2);
-    this.cameras.main.startFollow(this.player);
+    this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
     this.cursors = this.input.keyboard.createCursorKeys();
     for (let key of [
@@ -121,21 +109,21 @@ class debugRoom extends Phaser.Scene {
       );
     }
 
-    this.versionLabel = this.add.text(0, 0, "M.I.G Version Alpha 0.1", {
-      fontSize: "24px",
-      fill: "#fff",
-    });
-    this.versionLabel.setOrigin(1, 1); // Establecer el origen en la esquina inferior derecha
-    this.versionLabel.setPosition(
-      this.cameras.main.width - 10,
-      this.cameras.main.height - 10
-    ); // Ajustar la posición según el tamaño de la pantalla
-    this.versionLabel.alpha = 1;
-    this.versionLabel.setDepth(5);
+    this.coordinatesText = this.add.text(
+      this.player.x,
+      this.player.y - 20,
+      "",
+      { fontSize: "16px", fill: "#ffffff" }
+    );
+    this.coordinatesText.setOrigin(0.5);
+    this.coordinatesText.setDepth(3); // Asegúrate de que el texto esté delante de todo
+
+    this.cameras.main.fadeIn(5000);
+    this.vidas = 3;
+    console.log("Cantidad de vidas:",this.vidas)
   }
 
   update(time, delta) {
-    // Actualizar la posición del texto en cada fotograma para que se mantenga en la esquina inferior derecha de la pantalla
     this.events.on("resize", () => {
       this.versionLabel.setPosition(
         this.cameras.main.width - 10,
@@ -165,9 +153,77 @@ class debugRoom extends Phaser.Scene {
       this.player.play("PlayerBetaIdle3", true);
     }
 
-    if (this.cursors.space.isDown && this.player.body.onFloor()) {
+    if (this.cursors.space.isDown ^ this.cursors.w.isDown ^this.cursors.up.isDown && (this.player.body.onFloor()) ) {
       this.player.play("PlayerBetaJumpStart", true);
       this.player.body.setVelocityY(-this.velocidadSalto);
     }
+
+    this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
+    this.coordinatesText.setText(
+      `(${Math.round(this.player.x)}, ${Math.round(this.player.y)})`
+    );
+
+    if (this.player.body.y >= 1530) {
+      this.lostlive(this.player,this.vidas);
+    }
+  }
+  lostlive(player,vidas) {
+    
+
+    if (this.player.alpha < 1) {
+      return;
+    }
+
+    player.disableBody(true, true);
+    
+
+    if (vidas > 0){
+      this.time.addEvent({
+        delay: 1000,
+        callback: this.resetPlayer(vidas),
+        callbackScope: this,
+        loop: false,
+      });
+    } else {
+      this.cameras.main.fadeOut(5000);
+      this.time.addEvent({
+        delay: 5000,
+        callback: this.backtomenu,
+        callbackScope: this,
+        loop: false,
+      });
+      
+
+    }
+  }
+  
+  backtomenu(){
+    this.scene.start("menu");
+  }
+
+  resetPlayer(vidas) {
+    vidas += -1;
+    this.vidas = vidas;
+    console.log("Vida ahora:" ,vidas)
+    
+    var x = 179;
+    var y = 1380;
+    this.player.enableBody(true, x, y, true, true);
+
+    this.player.alpha = 0.5;
+    console.log("Vida: ",this.vidas)
+    var tween = this.tweens.add({
+      targets: this.player,
+      y: 1380,
+      x: 179,
+      ease: "Power1",
+      duration: 1500,
+      repeat: 0,
+      onComplete: function () {
+        this.player.alpha = 1;
+      },
+      callbackScope: this,
+      
+    });
   }
 }

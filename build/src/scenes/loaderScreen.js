@@ -108,9 +108,6 @@ class loaderScreen extends Phaser.Scene {
     // Agrega una transición de fundido negro (fade) al cambiar de escena
     this.scene.start("menu");
   }
-  transitionOut(progress) {
-    // Puedes personalizar la transición aquí, por ejemplo, cambiar el color del fondo
-    this.cameras.main.setBackgroundColor(`rgba(0, 0, 0, ${progress})`);
-  }
+  
   update() {}
 }
