@@ -200,7 +200,7 @@ class debugRoom extends Phaser.Scene {
 
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
-    this.versionText.setPosition(this.cameras.main.scrollX + 100, this.cameras.main.scrollY + 20);
+    this.versionText.setPosition(this.cameras.main.scrollX + 120, this.cameras.main.scrollY + 20);
     this.LivesText.setPosition(this.cameras.main.scrollX + 50, this.cameras.main.scrollY + 40);
     this.LivesText.setText("Vidas: "+ this.vidas);
 
