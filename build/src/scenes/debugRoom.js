@@ -21,6 +21,8 @@ class debugRoom extends Phaser.Scene {
     const tiles = map.addTilesetImage("tilesetDebugLv1_2", "tiles");
 
     // Crear las capas
+    const layerminmap = map.createLayer("MAPLAYER", tiles, 0, 0);
+
     const layer3 = map.createLayer("Background", tiles, 0, 0);
     const layer4 = map.createLayer("Dangers", tiles, 0, 0);
     const layer1 = map.createLayer("MidGround", tiles, 0, 0);
@@ -31,9 +33,11 @@ class debugRoom extends Phaser.Scene {
     // Asignar profundidades a las capas
     layer3.setDepth(0); // Fondo
     layer1.setDepth(1); // Mid
-
+    layerminmap.setDepth(-5);
     layer4.setDepth(1); // Frente
     layer2.setDepth(2); // Frente
+
+    this.cameras.main.ignore(layerminmap);
 
     // Crear el TileSprite del background
     this.background = this.add.tileSprite(
@@ -47,6 +51,8 @@ class debugRoom extends Phaser.Scene {
     this.background.setOrigin(0); // Asegurarse de que el origen del TileSprite esté en la esquina superior izquierda
     this.background.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
     this.background.setDepth(-3); // Ajustar la profundidad para que esté detrás de todas las capas
+
+
 
     this.background2 = this.add.tileSprite(
       0,
@@ -68,7 +74,7 @@ class debugRoom extends Phaser.Scene {
       "bg_test_nubes2"
     );
     this.background3.setOrigin(0, 0);
-    this.background3.alpha = 0.3;
+    this.background3.alpha = 0.4;
     this.background3.setTint(0x784949);
     this.background3.setDepth(4);
 
@@ -138,7 +144,7 @@ class debugRoom extends Phaser.Scene {
 
     this.LivesText = this.add.text(
       this.cameras.main.scrollX + 40,
-      this.cameras.main.scr2llY + 50,
+      this.cameras.main.scrollY + 50,
 
       "",
       { fontSize: "16px", fill: "#ffffff" }
@@ -147,6 +153,18 @@ class debugRoom extends Phaser.Scene {
     this.LivesText.setOrigin(0.5);
     this.LivesText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
+
+
+    this.staminaText = this.add.text(
+      this.cameras.main.scrollX + 40,
+      this.cameras.main.scrollY + 70,
+
+      "",
+      { fontSize: "16px", fill: "#ffffff" }
+    );
+
+    this.staminaText.setOrigin(0.5);
+    this.staminaText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
     //this.music = this.sound.add("ost2DebugRoom");
 
@@ -165,34 +183,65 @@ class debugRoom extends Phaser.Scene {
 
 
     // Create a mini map camera
-    const miniMapCam = this.cameras.add(this.cameras.main.width - 250, 0, 200, 150).setZoom(0.2);
+    const miniMapCam = this.cameras.add(this.cameras.main.scrollX + 850, 10, 200, 150).setZoom(0.2);
     miniMapCam.setName('miniMap');
 
-    // Render the mini map
-    miniMapCam.setBackgroundColor(0x002244);
 
-    // Add a border to the mini map
-    const graphics = this.add.graphics();
-    graphics.lineStyle(2, 0xffffff);
-    graphics.strokeRect(miniMapCam.x, miniMapCam.y, miniMapCam.width, miniMapCam.height);
+    // Crear el TileSprite del background
+    this.bgminmap = this.add.tileSprite(
+      0,
+      0,
+      map.widthInPixels * 2, // Usar map.widthInPixels para el ancho del mapa
+      map.heightInPixels * 2, // Usar map.heightInPixels para el alto del mapa
+      "bg_minmap"
+    );
+    this.bgminmap.alpha = 0.4;
+
+    //this.bgminmap.setOrigin(0); // Asegurarse de que el origen del TileSprite esté en la esquina superior izquierda
+    this.bgminmap.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
+    this.bgminmap.setDepth(-6); // Ajustar la profundidad para que esté detrás de todas las capas
+    this.cameras.main.ignore(this.bgminmap);
+
+    layerminmap.alpha = 0.9;
+
 
     // Follow the player with the mini map camera
     miniMapCam.startFollow(this.player);
 
     // Clamp mini map camera to map bounds
     miniMapCam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    miniMapCam.ignore(layer3); 
-    miniMapCam.ignore(layer4); 
-    miniMapCam.ignore(layer2); 
-    miniMapCam.ignore(this.background); 
-    miniMapCam.ignore(this.background2); 
-    miniMapCam.ignore(this.background3); 
-    miniMapCam.ignore(this.coordinatesText); 
-    miniMapCam.ignore(this.versionText); 
-    miniMapCam.ignore(this.LivesText); 
-    
+    miniMapCam.ignore(layer3);
+    miniMapCam.ignore(layer4);
+    miniMapCam.ignore(layer1);
+    miniMapCam.ignore(layer2);
+    miniMapCam.ignore(this.background);
+    miniMapCam.ignore(this.background2);
+    miniMapCam.ignore(this.background3);
+    miniMapCam.ignore(this.coordinatesText);
+    miniMapCam.ignore(this.versionText);
+    miniMapCam.ignore(this.LivesText);
+    miniMapCam.ignore(this.staminaText);
 
-    this.cameras.main.fadeIn(1000);
+
+
+    //---------------
+    //Follower Minmap
+
+    // Crear el seguidor (cuadrado amarillo)
+    this.follower = this.add.rectangle(this.player.x, this.player.y, 50, 50, 0xffff00);
+
+    // Ajustar el origen del seguidor en su centro
+    this.follower.setOrigin(0.5);
+
+    // Ajustar la escala del seguidor
+    this.follower.setScale(1.2); // 20% más grande que el jugador
+
+
+    this.cameras.main.ignore(this.follower);
+    miniMapCam.ignore(this.player);
+
+    //----------------------
+    this.cameras.main.fadeIn(2000);
     this.vidas = 3;
   }
 
@@ -201,11 +250,16 @@ class debugRoom extends Phaser.Scene {
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(this.cameras.main.scrollX + 120, this.cameras.main.scrollY + 20);
+
     this.LivesText.setPosition(this.cameras.main.scrollX + 50, this.cameras.main.scrollY + 40);
-    this.LivesText.setText("Vidas: "+ this.vidas);
+    this.LivesText.setText("Vidas: " + this.vidas);
 
+    this.staminaText.setPosition(this.cameras.main.scrollX + 70, this.cameras.main.scrollY + 55);
+    this.staminaText.setText("Stamina: " + this.timerdash);
 
-    
+    this.follower.x = this.player.x;
+    this.follower.y = this.player.y;
+
 
     this.events.on("resize", () => {
       this.versionLabel.setPosition(
@@ -216,7 +270,7 @@ class debugRoom extends Phaser.Scene {
     this.background2.tilePositionY -= 1.2;
 
     this.background3.tilePositionX -= 0.7;
-    
+
     if (
       this.cursors.left.isDown ^
       this.cursors.right.isDown ^
@@ -244,7 +298,7 @@ class debugRoom extends Phaser.Scene {
 
     //Dash
     if (this.cursors.shift.isDown && this.timerdash > 1) {
-      console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
+      //console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
       if (this.player.flipX == false) {
         this.player.body.setVelocityX(this.velocidadcaminar * 2.5);
       } else {

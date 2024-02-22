@@ -17,6 +17,8 @@ class loaderScreen extends Phaser.Scene {
     //Loaders Hud Y Gui
 
     this.load.image("hudmenu1","assets/hud_gui/hudMenu1.PNG")
+    this.load.image("bg_minmap","assets/backgrounds/Hud/bg_minmap.png")
+
 
     //Loaders fuentes
     this.load.bitmapFont(
