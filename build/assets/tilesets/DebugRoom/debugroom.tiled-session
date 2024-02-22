@@ -18,14 +18,14 @@
         },
         "debugroomtile1.tmx": {
             "scale": 0.5,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 828,
-                "y": 1194
+                "x": 961,
+                "y": 1306
             }
         },
         "debugroomtile1.tmx#tilesetDebugLv1_2": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 0.25,
             "scaleInEditor": 1
         },
         "tilesetDebugLv1_2.tsx": {
