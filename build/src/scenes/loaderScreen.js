@@ -50,7 +50,7 @@ class loaderScreen extends Phaser.Scene {
 
     //Loaders Audio OST
     this.load.audio("ost1Menu",["assets/sfx_ost/ost/CrashedShip_byTedKerr.ogg","assets/sfx_ost/ost/CrashedShip_byTedKerr.mp3"]);
-    //this.load.audio("ost2DebugRoom",["assets/sfx_ost/ost/debugroomost.ogg","assets/sfx_ost/ost/debugroomost.mp3"]);
+    this.load.audio("ost2DebugRoom",["assets/sfx_ost/ost/debugroomost.ogg","assets/sfx_ost/ost/debugroomost.mp3"]);
 
     //Loaders Mapas
     this.load.spritesheet('tiles', 'assets/tilesets/DebugRoom/tilesetDebugLv1_2.png', {frameWidth: 32, frameHeight: 32});

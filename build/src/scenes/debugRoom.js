@@ -166,20 +166,20 @@ class debugRoom extends Phaser.Scene {
     this.staminaText.setOrigin(0.5);
     this.staminaText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
-    //this.music = this.sound.add("ost2DebugRoom");
+    this.music = this.sound.add("ost2DebugRoom");
 
-    /*
-        var musicConfig = {
-          mute: false,
-          volume: 0.6,
-          rate: 1,
-          detune: 0,
-          seek: 0,
-          loop: true,
-          delay: 0,
-        };
-        this.music.play(musicConfig);
-    */
+
+    var musicConfig = {
+      mute: false,
+      volume: 0.6,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+    this.music.play(musicConfig);
+
 
 
     // Create a mini map camera
@@ -242,6 +242,8 @@ class debugRoom extends Phaser.Scene {
 
     //----------------------
     this.cameras.main.fadeIn(2000);
+    miniMapCam.fadeIn(2000);
+
     this.vidas = 3;
   }
 
