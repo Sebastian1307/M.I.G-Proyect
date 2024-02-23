@@ -104,7 +104,15 @@ class loaderScreen extends Phaser.Scene {
       frameRate: 12,
       repeat: 0,
     });
-    
+    this.anims.create({
+      key: "PlayerBetaDash",
+      frames: this.anims.generateFrameNumbers("playerbeta", {
+        start:36,
+        end: 45,
+      }),
+      frameRate: 24,
+      repeat: 0,
+    });
 
 
 

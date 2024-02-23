@@ -206,7 +206,7 @@ class debugRoom extends Phaser.Scene {
 
 
     // Follow the player with the mini map camera
-    miniMapCam.startFollow(this.player);
+    miniMapCam.startFollow(this.player, true, 0.05, 0.05);
 
     // Clamp mini map camera to map bounds
     miniMapCam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -228,7 +228,7 @@ class debugRoom extends Phaser.Scene {
     //Follower Minmap
 
     // Crear el seguidor (cuadrado amarillo)
-    this.follower = this.add.rectangle(this.player.x, this.player.y, 50, 50, 0xffff00);
+    this.follower = this.add.circle(this.player.x, this.player.y, 20, 0xffff00);
 
     // Ajustar el origen del seguidor en su centro
     this.follower.setOrigin(0.5);
@@ -303,9 +303,14 @@ class debugRoom extends Phaser.Scene {
       //console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
       if (this.player.flipX == false) {
         this.player.body.setVelocityX(this.velocidadcaminar * 2.5);
+        this.player.play("PlayerBetaDash", true);
+
       } else {
         this.player.body.setVelocityX(-this.velocidadcaminar * 2.5);
+        this.player.play("PlayerBetaDash", true);
+
       }
+      
       this.timerdash -= 50;
       //console.log(this.timerdash)
       this.dashbool = false
