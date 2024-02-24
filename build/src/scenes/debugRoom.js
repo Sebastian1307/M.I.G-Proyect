@@ -227,6 +227,13 @@ class debugRoom extends Phaser.Scene {
     miniMapCam.ignore(this.player);
 
     //----------------------
+
+
+    this.cameras.main.setPostPipeline(ScalinePostFX);
+
+    const shader = this.cameras.main.getPostPipeline(ScalinePostFX);
+    
+    
     this.cameras.main.fadeIn(2000);
     miniMapCam.fadeIn(2000);
 

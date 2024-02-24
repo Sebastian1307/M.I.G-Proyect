@@ -1,4 +1,4 @@
-class loaderScreen extends Phaser.Scene {
+ class loaderScreen extends Phaser.Scene {
   constructor() {
     super("loader");
   }
@@ -117,7 +117,8 @@ class loaderScreen extends Phaser.Scene {
 
 
     // Agrega una transición de fundido negro (fade) al cambiar de escena
-    this.scene.start("menu");
+    //this.scene.start("menu");
+    this.scene.start("debugRoom");
   }
   
   update() {}

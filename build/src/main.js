@@ -1,3 +1,4 @@
+
 var gameSettings = {};
 
 var config = {
@@ -6,6 +7,7 @@ var config = {
   height: 600,
   pixelArt: true,
   scene: [loaderScreen, MainMenu, debugRoom, menuCredits],
+  pipeline: { ScalinePostFX },
   physics: {
     default: "arcade",
     arcade: {
