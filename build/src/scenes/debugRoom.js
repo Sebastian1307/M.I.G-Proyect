@@ -5,14 +5,13 @@ class debugRoom extends Phaser.Scene {
     super("debugRoom");
   }
 
-  preload() { }
+  preload() {}
 
   create() {
-
     this.dashbool = true;
     this.timerdash = 700;
 
-    this.aceleracion = 2, 0;
+    (this.aceleracion = 2), 0;
     this.velocidadSalto = 450;
     this.velocidadcaminar = 220;
 
@@ -52,8 +51,6 @@ class debugRoom extends Phaser.Scene {
     this.background.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
     this.background.setDepth(-3); // Ajustar la profundidad para que esté detrás de todas las capas
 
-
-
     this.background2 = this.add.tileSprite(
       0,
       0,
@@ -78,10 +75,7 @@ class debugRoom extends Phaser.Scene {
     this.background3.setTint(0x784949);
     this.background3.setDepth(4);
 
-
-
     this.player = this.physics.add.sprite(179, 1380, "playerbeta");
-
 
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
@@ -90,6 +84,7 @@ class debugRoom extends Phaser.Scene {
     this.player.body.setSize(this.player.width - 32, this.player.height);
 
     this.physics.add.collider(this.player, layer1);
+    
 
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
@@ -141,7 +136,6 @@ class debugRoom extends Phaser.Scene {
     this.versionText.setOrigin(0.5);
     this.versionText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
-
     this.LivesText = this.add.text(
       this.cameras.main.scrollX + 40,
       this.cameras.main.scrollY + 50,
@@ -152,8 +146,6 @@ class debugRoom extends Phaser.Scene {
 
     this.LivesText.setOrigin(0.5);
     this.LivesText.setDepth(5); // Asegúrate de que el texto esté delante de todo
-
-
 
     this.staminaText = this.add.text(
       this.cameras.main.scrollX + 40,
@@ -168,7 +160,6 @@ class debugRoom extends Phaser.Scene {
 
     this.music = this.sound.add("ost2DebugRoom");
 
-
     var musicConfig = {
       mute: false,
       volume: 0.6,
@@ -180,12 +171,11 @@ class debugRoom extends Phaser.Scene {
     };
     this.music.play(musicConfig);
 
-
-
     // Create a mini map camera
-    const miniMapCam = this.cameras.add(this.cameras.main.scrollX + 850, 10, 200, 150).setZoom(0.2);
-    miniMapCam.setName('miniMap');
-
+    const miniMapCam = this.cameras
+      .add(this.cameras.main.scrollX + 850, 10, 200, 150)
+      .setZoom(0.2);
+    miniMapCam.setName("miniMap");
 
     // Crear el TileSprite del background
     this.bgminmap = this.add.tileSprite(
@@ -204,7 +194,6 @@ class debugRoom extends Phaser.Scene {
 
     layerminmap.alpha = 0.9;
 
-
     // Follow the player with the mini map camera
     miniMapCam.startFollow(this.player, true, 0.05, 0.05);
 
@@ -222,8 +211,6 @@ class debugRoom extends Phaser.Scene {
     miniMapCam.ignore(this.LivesText);
     miniMapCam.ignore(this.staminaText);
 
-
-
     //---------------
     //Follower Minmap
 
@@ -236,7 +223,6 @@ class debugRoom extends Phaser.Scene {
     // Ajustar la escala del seguidor
     this.follower.setScale(1.2); // 20% más grande que el jugador
 
-
     this.cameras.main.ignore(this.follower);
     miniMapCam.ignore(this.player);
 
@@ -248,20 +234,27 @@ class debugRoom extends Phaser.Scene {
   }
 
   update(time, delta) {
-
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
-    this.versionText.setPosition(this.cameras.main.scrollX + 120, this.cameras.main.scrollY + 20);
+    this.versionText.setPosition(
+      this.cameras.main.scrollX + 120,
+      this.cameras.main.scrollY + 20
+    );
 
-    this.LivesText.setPosition(this.cameras.main.scrollX + 50, this.cameras.main.scrollY + 40);
+    this.LivesText.setPosition(
+      this.cameras.main.scrollX + 50,
+      this.cameras.main.scrollY + 40
+    );
     this.LivesText.setText("Vidas: " + this.vidas);
 
-    this.staminaText.setPosition(this.cameras.main.scrollX + 70, this.cameras.main.scrollY + 55);
+    this.staminaText.setPosition(
+      this.cameras.main.scrollX + 70,
+      this.cameras.main.scrollY + 55
+    );
     this.staminaText.setText("Stamina: " + this.timerdash);
 
     this.follower.x = this.player.x;
     this.follower.y = this.player.y;
-
 
     this.events.on("resize", () => {
       this.versionLabel.setPosition(
@@ -293,7 +286,12 @@ class debugRoom extends Phaser.Scene {
       this.player.play("PlayerBetaIdle3", true);
     }
 
-    if (this.cursors.space.isDown ^ this.cursors.w.isDown ^ this.cursors.up.isDown && (this.player.body.onFloor())) {
+    if (
+      this.cursors.space.isDown ^
+        this.cursors.w.isDown ^
+        this.cursors.up.isDown &&
+      this.player.body.onFloor()
+    ) {
       this.player.play("PlayerBetaJumpStart", true);
       this.player.body.setVelocityY(-this.velocidadSalto);
     }
@@ -303,29 +301,21 @@ class debugRoom extends Phaser.Scene {
       //console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
       if (this.player.flipX == false) {
         this.player.body.setVelocityX(this.velocidadcaminar * 2.5);
-        this.player.play("PlayerBetaDash", true);
-
       } else {
         this.player.body.setVelocityX(-this.velocidadcaminar * 2.5);
-        this.player.play("PlayerBetaDash", true);
-
       }
-      
+
       this.timerdash -= 50;
       //console.log(this.timerdash)
-      this.dashbool = false
+      this.dashbool = false;
     }
     if (this.cursors.shift.isUp) {
-      this.dashbool = true
+      this.dashbool = true;
     }
     if (this.timerdash < 700 && this.dashbool == true) {
       this.timerdash += 15;
-      console.log("Recargando dash: ", this.timerdash)
-
+      console.log("Recargando dash: ", this.timerdash);
     }
-
-
-
 
     this.coordinatesText.setText(
       `(${Math.round(this.player.x)}, ${Math.round(this.player.y)})`
@@ -336,14 +326,11 @@ class debugRoom extends Phaser.Scene {
     }
   }
   lostlive(player, vidas) {
-
-
     if (this.player.alpha < 1) {
       return;
     }
 
     player.disableBody(true, true);
-
 
     if (vidas > 0) {
       this.time.addEvent({
@@ -353,27 +340,25 @@ class debugRoom extends Phaser.Scene {
         loop: false,
       });
     } else {
-
       this.time.addEvent({
         delay: 5000,
         callback: this.backtomenu,
         callbackScope: this,
         loop: false,
       });
-
-
     }
   }
 
   backtomenu() {
-    this.cameras.main.fadeOut(5000);
+    this.cameras.main.fadeIn(5000);
+    this.music.pause();
     this.scene.start("menu");
   }
 
   resetPlayer(vidas) {
     vidas += -1;
     this.vidas = vidas;
-    console.log("Vida ahora:", vidas)
+    console.log("Vida ahora:", vidas);
 
     var x = 179;
     var y = 1380;
@@ -392,7 +377,6 @@ class debugRoom extends Phaser.Scene {
         this.player.alpha = 1;
       },
       callbackScope: this,
-
     });
   }
 }
