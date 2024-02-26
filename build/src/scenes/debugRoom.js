@@ -21,12 +21,10 @@ class debugRoom extends Phaser.Scene {
 
     // Crear las capas
     const layerminmap = map.createLayer("MAPLAYER", tiles, 0, 0);
-
     const layer3 = map.createLayer("Background", tiles, 0, 0);
     const layer4 = map.createLayer("Dangers", tiles, 0, 0);
     const layer1 = map.createLayer("MidGround", tiles, 0, 0);
     layer1.setCollisionByExclusion([-1]);
-
     const layer2 = map.createLayer("Foreground", tiles, 0, 0);
 
     // Asignar profundidades a las capas

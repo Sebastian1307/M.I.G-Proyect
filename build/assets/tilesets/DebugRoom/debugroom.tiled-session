@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "debugroomtile1.tmx",
+    "activeFile": "debugroomtile1.json",
     "expandedProjectPaths": [
         "."
     ],
@@ -11,28 +11,39 @@
     "fileStates": {
         "": {
             "scaleInDock": 0.33,
-            "scaleInEditor": 1
+            "scaleInEditor": 1.5
         },
         "D:/TilesCreated/debugtiles.tsx": {
             "scaleInDock": 1
         },
-        "debugroomtile1.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 2,
+        "debugroomtile1.json": {
+            "scale": 0.33,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 2060,
-                "y": 1312
+                "x": 1284.848484848485,
+                "y": 1369.6969696969695
+            }
+        },
+        "debugroomtile1.json#tilesetDebugLv1_2": {
+            "scaleInDock": 1
+        },
+        "debugroomtile1.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 651.5151515151516,
+                "y": 924.2424242424242
             }
         },
         "debugroomtile1.tmx#tilesetDebugLv1_2": {
-            "scaleInDock": 4,
+            "scaleInDock": 0.5,
             "scaleInEditor": 1
         },
         "tilesetDebugLv1_2.tsx": {
             "scaleInDock": 1
         }
     },
-    "last.exportedFilePath": "D:/MIG/M.I.G-Proyect/build/assets/tilesets/DebugRoom",
+    "last.exportedFilePath": "D:/ProyectoMIGVideojuegos/M.I.G/build/assets/tilesets/DebugRoom",
     "last.externalTilesetPath": "D:/Videojuegos/Proyect_MIG/M.I.G/build/assets/tilesets/DebugRoom",
     "last.imagePath": "D:/Videojuegos/Proyect_MIG/M.I.G/build/assets/tilesets/DebugRoom",
     "map.height": 50,
@@ -40,10 +51,11 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 300,
     "openFiles": [
-        "debugroomtile1.tmx"
+        "debugroomtile1.json"
     ],
     "project": "debugroom.tiled-project",
     "recentFiles": [
+        "debugroomtile1.json",
         "debugroomtile1.tmx"
     ],
     "resizeMap.removeObjects": true,
