@@ -1,13 +1,15 @@
 var cursors;
 
+
 class debugRoom extends Phaser.Scene {
   constructor() {
     super("debugRoom");
   }
 
-  preload() {}
+  preload() { }
 
   create() {
+
     this.dashbool = true;
     this.timerdash = 700;
 
@@ -17,6 +19,7 @@ class debugRoom extends Phaser.Scene {
 
     // load the map
     const map = this.make.tilemap({ key: "map" });
+    this.sys.animatedTiles.init(map);
     const tiles = map.addTilesetImage("tilesetDebugLv1_2", "tiles");
 
     // Crear las capas
@@ -74,6 +77,10 @@ class debugRoom extends Phaser.Scene {
     this.background3.setDepth(4);
 
     this.player = this.physics.add.sprite(179, 1380, "playerbeta");
+    PhaserHealth.AddTo(this.player).setHealth(5, 0, 5);
+    console.log("Player Health:", this.player.getHealth())
+
+ 
 
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
@@ -82,7 +89,7 @@ class debugRoom extends Phaser.Scene {
     this.player.body.setSize(this.player.width - 32, this.player.height);
 
     this.physics.add.collider(this.player, layer1);
-    
+
 
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
@@ -192,6 +199,17 @@ class debugRoom extends Phaser.Scene {
 
     layerminmap.alpha = 0.9;
 
+    var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
+    var postFxPipeline = postFxPlugin
+      .add(layerminmap, {
+        distance: 5,
+
+        outerStrength: 4,
+        innerStrength: 0,
+        glowColor: 0x8eff0d,
+      });
+
+
     // Follow the player with the mini map camera
     miniMapCam.startFollow(this.player, true, 0.05, 0.05);
 
@@ -214,6 +232,15 @@ class debugRoom extends Phaser.Scene {
 
     // Crear el seguidor (cuadrado amarillo)
     this.follower = this.add.circle(this.player.x, this.player.y, 20, 0xffff00);
+    var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
+    var postFxPipeline = postFxPlugin
+      .add(this.follower, {
+        distance: 2,
+
+        outerStrength: 4,
+        innerStrength: 0,
+        glowColor: 0x8eff0d,
+      });
 
     // Ajustar el origen del seguidor en su centro
     this.follower.setOrigin(0.5);
@@ -230,8 +257,8 @@ class debugRoom extends Phaser.Scene {
     this.cameras.main.setPostPipeline(ScalinePostFX);
 
     const shader = this.cameras.main.getPostPipeline(ScalinePostFX);
-    
-    
+
+
     this.cameras.main.fadeIn(2000);
     miniMapCam.fadeIn(2000);
 
@@ -258,6 +285,7 @@ class debugRoom extends Phaser.Scene {
     );
     this.staminaText.setText("Stamina: " + this.timerdash);
 
+   
     this.follower.x = this.player.x;
     this.follower.y = this.player.y;
 
@@ -267,7 +295,7 @@ class debugRoom extends Phaser.Scene {
         this.cameras.main.height - 10
       );
     });
-    this.background2.tilePositionY -= 1.2;
+    this.background2.tilePositionY -= 3;
 
     this.background3.tilePositionX -= 0.7;
 
@@ -293,8 +321,8 @@ class debugRoom extends Phaser.Scene {
 
     if (
       this.cursors.space.isDown ^
-        this.cursors.w.isDown ^
-        this.cursors.up.isDown &&
+      this.cursors.w.isDown ^
+      this.cursors.up.isDown &&
       this.player.body.onFloor()
     ) {
       this.player.play("PlayerBetaJumpStart", true);

@@ -17,11 +17,11 @@
             "scaleInDock": 1
         },
         "debugroomtile1.json": {
-            "scale": 0.33,
+            "scale": 0.25,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1284.848484848485,
-                "y": 1369.6969696969695
+                "x": 1620,
+                "y": 1256
             }
         },
         "debugroomtile1.json#tilesetDebugLv1_2": {

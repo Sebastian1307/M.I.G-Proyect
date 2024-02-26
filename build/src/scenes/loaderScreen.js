@@ -4,6 +4,10 @@
   }
 
   preload() {
+    //Loaders plugins
+
+    this.load.plugin('rexglowfilter2pipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js', true);
+
     //loaders backgrounds
     this.load.image("bg_test1", "assets/backgrounds/bg_planetAtmos.png");
     this.load.image("bg_test_nubes", "assets/backgrounds/clouds.jpg");
