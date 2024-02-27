@@ -5,7 +5,6 @@
 
   preload() {
     //Loaders plugins
-
     this.load.plugin('rexglowfilter2pipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js', true);
 
     //loaders backgrounds

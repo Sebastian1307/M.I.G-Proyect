@@ -1,3 +1,4 @@
+
 var cursors;
 
 
@@ -19,7 +20,6 @@ class debugRoom extends Phaser.Scene {
 
     // load the map
     const map = this.make.tilemap({ key: "map" });
-    this.sys.animatedTiles.init(map);
     const tiles = map.addTilesetImage("tilesetDebugLv1_2", "tiles");
 
     // Crear las capas
@@ -30,6 +30,7 @@ class debugRoom extends Phaser.Scene {
     layer1.setCollisionByExclusion([-1]);
     const layer2 = map.createLayer("Foreground", tiles, 0, 0);
 
+   
     // Asignar profundidades a las capas
     layer3.setDepth(0); // Fondo
     layer1.setDepth(1); // Mid
@@ -202,7 +203,7 @@ class debugRoom extends Phaser.Scene {
     var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
     var postFxPipeline = postFxPlugin
       .add(layerminmap, {
-        distance: 5,
+        distance: 4,
 
         outerStrength: 4,
         innerStrength: 0,
@@ -235,11 +236,11 @@ class debugRoom extends Phaser.Scene {
     var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
     var postFxPipeline = postFxPlugin
       .add(this.follower, {
-        distance: 2,
+        distance: 3,
 
         outerStrength: 4,
         innerStrength: 0,
-        glowColor: 0x8eff0d,
+        glowColor: 0x48ff00,
       });
 
     // Ajustar el origen del seguidor en su centro
@@ -262,10 +263,12 @@ class debugRoom extends Phaser.Scene {
     this.cameras.main.fadeIn(2000);
     miniMapCam.fadeIn(2000);
 
+
     this.vidas = 3;
   }
 
   update(time, delta) {
+
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(
