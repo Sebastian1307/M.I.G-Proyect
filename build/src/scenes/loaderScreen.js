@@ -1,4 +1,4 @@
- class loaderScreen extends Phaser.Scene {
+class loaderScreen extends Phaser.Scene {
   constructor() {
     super("loader");
   }
@@ -19,8 +19,8 @@
 
     //Loaders Hud Y Gui
 
-    this.load.image("hudmenu1","assets/hud_gui/hudMenu1.PNG")
-    this.load.image("bg_minmap","assets/backgrounds/Hud/bg_minmap.png")
+    this.load.image("hudmenu1", "assets/hud_gui/hudMenu1.PNG")
+    this.load.image("bg_minmap", "assets/backgrounds/Hud/bg_minmap.png")
 
 
     //Loaders fuentes
@@ -39,6 +39,12 @@
       frameHeight: 48,
     });
 
+    //--------------
+    //loaders Objects
+    //--------------
+    this.load.image("gun1", "assets/objects/gun.png");
+
+
 
     //Loaders ships
     this.load.image("ship1", "assets/characters/ships/ship1.png");
@@ -47,16 +53,16 @@
 
 
     //Loaders Audio SFX
-    this.load.audio("open1",["assets/sfx_ost/hud/open01.ogg","assets/sfx_ost/hud/open01.mp3"]);
-    this.load.audio("close1",["assets/sfx_ost/hud/close01.ogg","assets/sfx_ost/hud/close01.mp3"]);
-    this.load.audio("close2",["assets/sfx_ost/hud/close02.ogg","assets/sfx_ost/hud/close02.mp3"]);
+    this.load.audio("open1", ["assets/sfx_ost/hud/open01.ogg", "assets/sfx_ost/hud/open01.mp3"]);
+    this.load.audio("close1", ["assets/sfx_ost/hud/close01.ogg", "assets/sfx_ost/hud/close01.mp3"]);
+    this.load.audio("close2", ["assets/sfx_ost/hud/close02.ogg", "assets/sfx_ost/hud/close02.mp3"]);
 
     //Loaders Audio OST
-    this.load.audio("ost1Menu",["assets/sfx_ost/ost/CrashedShip_byTedKerr.ogg","assets/sfx_ost/ost/CrashedShip_byTedKerr.mp3"]);
-    this.load.audio("ost2DebugRoom",["assets/sfx_ost/ost/debugroomost.ogg","assets/sfx_ost/ost/debugroomost.mp3"]);
+    this.load.audio("ost1Menu", ["assets/sfx_ost/ost/CrashedShip_byTedKerr.ogg", "assets/sfx_ost/ost/CrashedShip_byTedKerr.mp3"]);
+    this.load.audio("ost2DebugRoom", ["assets/sfx_ost/ost/debugroomost.ogg", "assets/sfx_ost/ost/debugroomost.mp3"]);
 
     //Loaders Mapas
-    this.load.spritesheet('tiles', 'assets/tilesets/DebugRoom/tilesetDebugLv1_2.png', {frameWidth: 32, frameHeight: 32});
+    this.load.spritesheet('tiles', 'assets/tilesets/DebugRoom/tilesetDebugLv1_2.png', { frameWidth: 32, frameHeight: 32 });
     this.load.tilemapTiledJSON('map', 'assets/tilesets/DebugRoom/debugroomtile1.json');
 
   }
@@ -65,7 +71,7 @@
     this.anims.create({
       key: "PlayerBetaRun",
       frames: this.anims.generateFrameNumbers("playerbeta", {
-        start:36,
+        start: 36,
         end: 45,
       }),
       frameRate: 12.5,
@@ -110,7 +116,7 @@
     this.anims.create({
       key: "PlayerBetaDash",
       frames: this.anims.generateFrameNumbers("playerbeta", {
-        start:36,
+        start: 36,
         end: 45,
       }),
       frameRate: 24,
@@ -120,9 +126,9 @@
 
 
     // Agrega una transición de fundido negro (fade) al cambiar de escena
-    this.scene.start("menu");
-    //this.scene.start("debugRoom");
+    //this.scene.start("menu");
+    this.scene.start("debugRoom");
   }
-  
-  update() {}
+
+  update() { }
 }

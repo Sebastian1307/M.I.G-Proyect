@@ -28,20 +28,38 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.aceleracion = 2;
     this.velocidadSalto = 450;
     this.velocidadcaminar = 220;
-    this.vidas = 0;
+    this.vidas = 3;
 
-    // Otras inicializaciones y ajustes del jugador
+
+    this.arm = this.scene.add.sprite(this.x, this.y, "gun1");
+
+    this.arm.setDepth(1.5)
+    this.arm.scale = 0.3;
+    this.arm.setOrigin(0.2,0.5) 
+    this.scene.input.on("pointermove",(pointer)=>{
+      this.arm.rotation = Phaser.Math.Angle.BetweenPoints(this.arm,{x:pointer.worldX,y:pointer.worldY});
+      this.flipX = pointer.worldX < this.x;
+      console.log(this.arm.rotation)
+      this.arm.flipY = this.arm.rotation < -Math.PI/2 || this.arm.rotation > Math.PI/2;
+    });
   }
 
   update() {
     if (this.body.y >= 1530) {
         this.lostlive(this, this.vidas);
     }
+
     this.movement();
     this.dash();
     this.jump();
+    this.armtoplayer();
   }
 
+
+  armtoplayer(){
+    this.arm.x = this.x;
+    this.arm.y = this.y;
+  }
   movement() {
     if (
       this.cursors.left.isDown ^
@@ -51,12 +69,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       if (this.body.onFloor()) {
         this.play("PlayerBetaRun", true);
       }
+
       if (this.cursors.left.isDown || this.cursors.a.isDown) {
         this.body.setVelocityX(-this.velocidadcaminar);
-        this.flipX = true;
       } else if (this.cursors.right.isDown || this.cursors.d.isDown) {
         this.body.setVelocityX(this.velocidadcaminar);
-        this.flipX = false;
       }
     } else if (this.body.onFloor()) {
       this.body.setVelocityX(0);
@@ -65,7 +82,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   dash() {
-    if (this.cursors.shift.isDown && this.timerdash > 1) {
+    if (this.cursors.shift.isDown && this.timerdash > 1 ) {
       //console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
       if (this.flipX == false) {
         this.body.setVelocityX(this.velocidadcaminar * 2.5);
@@ -82,7 +99,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
     if (this.timerdash < 700 && this.dashbool == true) {
       this.timerdash += 15;
-      console.log("Recargando dash: ", this.timerdash);
+      //console.log("Recargando dash: ", this.timerdash);
     }
   }
 
