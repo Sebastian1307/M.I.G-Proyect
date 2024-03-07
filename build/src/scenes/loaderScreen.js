@@ -119,9 +119,30 @@ class loaderScreen extends Phaser.Scene {
       "map",
       "assets/tilesets/DebugRoom/debugroomtile1.json"
     );
+
+    const progress = this.add.graphics();
+ // Mensaje de "Cargando"
+ const loadingText = this.add.text(500, 300, "Cargando...", {
+  font: "24px Arial",
+  fill: "#000000"
+});
+const Empresaname = this.add.text(420, 320, "By Skywalker1307", {
+  font: "24px Arial",
+  fill: "#ffffff"
+});
+loadingText.setOrigin(0.5);
+
+
+    this.load.on("progress", function (value) {
+        progress.clear();
+        progress.fillStyle(0xffffff, 1);
+        progress.fillRect(400, 280, 300 * value, 30);
+    });
   }
 
   create() {
+    
+    
     //ANIMACIONES JUGADOR
     this.anims.create({
       key: "PlayerBetaRun",
@@ -210,11 +231,13 @@ class loaderScreen extends Phaser.Scene {
       }),
       frameRate: 24,
       repeat: -1,
+
+      
     });
 
     // Agrega una transición de fundido negro (fade) al cambiar de escena
-    //this.scene.start("menu");
-    this.scene.start("debugRoom");
+    this.scene.start("menu");
+    //this.scene.start("debugRoom");
   }
 
   update() {}

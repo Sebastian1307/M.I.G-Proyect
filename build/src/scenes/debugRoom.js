@@ -91,15 +91,15 @@ class debugRoom extends Phaser.Scene {
 
     //ENEMIGOS
     this.enemiesGroup = this.physics.add.group();
-    this.enemy1 = new Enemy(this, 250, 1380, "enemy1");
+    this.enemy1 = new Enemy(this, 500, 1380, "enemy1");
     this.enemiesGroup.add(this.enemy1);
 
-    this.enemy2 = new Enemy(this, 350, 1380, "enemy1");
+    this.enemy2 = new Enemy(this, 550, 1380, "enemy1");
     this.enemiesGroup.add(this.enemy2);
     this.physics.add.collider(this.enemiesGroup, layer1);
     this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
-   
-//---------------------
+
+    //---------------------
 
     this.cameras.main.setBounds(
       0,
@@ -191,7 +191,6 @@ class debugRoom extends Phaser.Scene {
 
     var postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
 
-
     var postFxPipeline = postFxPlugin.add(layerminmap, {
       distance: 4,
 
@@ -232,8 +231,6 @@ class debugRoom extends Phaser.Scene {
       innerStrength: 0,
       glowColor: 0x48ff00,
     });
-    
-
 
     // Ajustar el origen del seguidor en su centro
     this.follower.setOrigin(0.5);
@@ -244,7 +241,6 @@ class debugRoom extends Phaser.Scene {
 
     miniMapCam.ignore(this.player);
     miniMapCam.ignore(this.player.arm);
-
 
     //----------------------
 
@@ -258,10 +254,10 @@ class debugRoom extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
-    this.enemiesGroup.children.iterate(enemy => {
+    this.enemiesGroup.children.iterate((enemy) => {
       enemy.update();
-  });
-  
+    });
+
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(
@@ -287,7 +283,6 @@ class debugRoom extends Phaser.Scene {
     this.follower.x = this.player.x;
     this.follower.y = this.player.y;
 
-
     this.events.on("resize", () => {
       this.versionLabel.setPosition(
         this.cameras.main.width - 10,
@@ -303,21 +298,27 @@ class debugRoom extends Phaser.Scene {
     );
   }
   bulletCollisionHandler(bullet) {
- 
     bullet.anims.play("balaimpacto", false);
 
     // Destruye la bala
     bullet.destroy();
   }
-  
+
   backtomenu() {
+    this.cameras.main.shake(1000);
+    this.cameras.main.flash(1000, 255, 0, 0);
+    this.scene.time.delayedCall(250, () => {
+      this.currentBullets--;
+    });
+  }
+  backtomenu2(){
     this.cameras.main.fadeIn(5000);
     this.music.pause();
     this.scene.start("menu");
   }
 
-  hitenemy(enemy){
+  hitenemy(enemy) {
     enemy.destroy();
-    console.log("MUERTO ENEMY")
+    console.log("MUERTO ENEMY");
   }
 }

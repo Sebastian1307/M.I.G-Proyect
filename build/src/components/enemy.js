@@ -10,7 +10,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     this.body.allowGravity = true; // Evita que la gravedad afecte al enemigo
     // Velocidad de movimiento del enemigo
-    this.speed = 250;
+    this.speed = 150;
 
     // Estado inicial
     this.state = "moveRight";
