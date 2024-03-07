@@ -308,11 +308,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
+ "nextlayerid":10,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"2024.02.02",
+ "tiledversion":"1.10.2",
  "tileheight":32,
  "tilesets":[
         {
@@ -1971,6 +1971,10 @@
                          "type":"string",
                          "value":"true"
                         }]
+                }, 
+                {
+                 "id":806,
+                 "type":"enemigo"
                 }, 
                 {
                  "animation":[

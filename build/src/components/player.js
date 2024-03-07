@@ -52,6 +52,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.maxBullets = 1; // Máximo de balas permitidas
     this.currentBullets = 0; // Contador de balas disparadas
+    this.disparo1 = this.scene.sound.add("bala1");
+    
+
   }
 
   update() {
@@ -186,7 +189,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   shoot() {
     // Creamos una bala en la posición del jugador
     let bullet = this.bullets.create(this.arm.x, this.arm.y, "bala");
-
+    bullet.rotation = this.arm.rotation
     // Calculamos la velocidad de la bala en función de la rotación del brazo
     let velocityX = Math.cos(this.arm.rotation) * 600;
     let velocityY = Math.sin(this.arm.rotation) * 600;
@@ -194,14 +197,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     // Aplicamos la velocidad a la bala
     bullet.setVelocity(velocityX, velocityY);
 
-    this.scene.time.delayedCall(300, () => {
+    this.scene.time.delayedCall(250, () => {
       this.currentBullets--;
     });
 
     this.scene.time.delayedCall(1000, () => {
       bullet.destroy();
     });
-
+    this.disparo1.play();
     // Añadir animación a la bala
     bullet.anims.play("baladisparo", false);
   }

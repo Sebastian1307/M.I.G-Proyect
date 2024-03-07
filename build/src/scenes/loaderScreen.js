@@ -49,6 +49,15 @@ class loaderScreen extends Phaser.Scene {
       }
     );
 
+    this.load.spritesheet(
+      "enemy1",
+      "assets/characters/enemys/enemy1/enemy1.png",
+      {
+        frameWidth: 48,
+        frameHeight: 48,
+      }
+    );
+
     //--------------
     //loaders Objects
     //--------------
@@ -83,6 +92,11 @@ class loaderScreen extends Phaser.Scene {
     this.load.audio("close2", [
       "assets/sfx_ost/hud/close02.ogg",
       "assets/sfx_ost/hud/close02.mp3",
+    ]);
+
+    this.load.audio("bala1", [
+      "assets/sfx_ost/bullets/disparo.ogg",
+      "assets/sfx_ost/bullets/disparo.mp3",
     ]);
 
     //Loaders Audio OST
@@ -164,6 +178,18 @@ class loaderScreen extends Phaser.Scene {
       repeat: 0,
     });
 
+
+    //ANIMACIONES ENEMIGOS
+    this.anims.create({
+      key: "enemywalk",
+      frames: this.anims.generateFrameNumbers("enemy1", {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 1,
+      repeat: 0,
+    });
+
     // ANIMACIONES BALAS
 
     this.anims.create({
@@ -187,8 +213,8 @@ class loaderScreen extends Phaser.Scene {
     });
 
     // Agrega una transición de fundido negro (fade) al cambiar de escena
-    this.scene.start("menu");
-    //this.scene.start("debugRoom");
+    //this.scene.start("menu");
+    this.scene.start("debugRoom");
   }
 
   update() {}

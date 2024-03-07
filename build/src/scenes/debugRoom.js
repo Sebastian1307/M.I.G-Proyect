@@ -20,15 +20,12 @@ class debugRoom extends Phaser.Scene {
 
     layer1.setCollisionByExclusion([-1]);
 
-    // this.light = this.lights.addLight(0, 0, 400).setScrollFactor(0.0);
-
-    // this.lights.enable().setAmbientColor(0x555555);
-
     const layer2 = map.createLayer("Foreground", tiles, 0, 0);
 
     // Asignar profundidades a las capas
     layer3.setDepth(0); // Fondo
     layer1.setDepth(1); // Mid
+
     layerminmap.setDepth(-5);
     layer4.setDepth(1); // Frente
     layer2.setDepth(2); // Frente
@@ -73,7 +70,6 @@ class debugRoom extends Phaser.Scene {
     this.background3.setDepth(4);
 
     this.player = new Player(this, 179, 1380, "playerbeta");
-    PhaserHealth.AddTo(this.player).setHealth(5, 0, 5);
 
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
@@ -92,6 +88,18 @@ class debugRoom extends Phaser.Scene {
 
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
+
+    //ENEMIGOS
+    this.enemiesGroup = this.physics.add.group();
+    this.enemy1 = new Enemy(this, 250, 1380, "enemy1");
+    this.enemiesGroup.add(this.enemy1);
+
+    this.enemy2 = new Enemy(this, 350, 1380, "enemy1");
+    this.enemiesGroup.add(this.enemy2);
+    this.physics.add.collider(this.enemiesGroup, layer1);
+    this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
+   
+//---------------------
 
     this.cameras.main.setBounds(
       0,
@@ -182,6 +190,8 @@ class debugRoom extends Phaser.Scene {
     layerminmap.alpha = 0.9;
 
     var postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
+
+
     var postFxPipeline = postFxPlugin.add(layerminmap, {
       distance: 4,
 
@@ -213,6 +223,7 @@ class debugRoom extends Phaser.Scene {
 
     // Crear el seguidor (cuadrado amarillo)
     this.follower = this.add.circle(this.player.x, this.player.y, 20, 0xffff00);
+
     var postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     var postFxPipeline = postFxPlugin.add(this.follower, {
       distance: 3,
@@ -221,16 +232,19 @@ class debugRoom extends Phaser.Scene {
       innerStrength: 0,
       glowColor: 0x48ff00,
     });
+    
+
 
     // Ajustar el origen del seguidor en su centro
     this.follower.setOrigin(0.5);
-
     // Ajustar la escala del seguidor
     this.follower.setScale(1.2); // 20% más grande que el jugador
 
     this.cameras.main.ignore(this.follower);
+
     miniMapCam.ignore(this.player);
     miniMapCam.ignore(this.player.arm);
+
 
     //----------------------
 
@@ -244,6 +258,10 @@ class debugRoom extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
+    this.enemiesGroup.children.iterate(enemy => {
+      enemy.update();
+  });
+  
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(
@@ -269,6 +287,7 @@ class debugRoom extends Phaser.Scene {
     this.follower.x = this.player.x;
     this.follower.y = this.player.y;
 
+
     this.events.on("resize", () => {
       this.versionLabel.setPosition(
         this.cameras.main.width - 10,
@@ -283,17 +302,22 @@ class debugRoom extends Phaser.Scene {
       `(${Math.round(this.player.x)}, ${Math.round(this.player.y)})`
     );
   }
-  bulletCollisionHandler(bullet, tile) {
-    // Aquí puedes manejar la colisión entre las balas y la capa de tiles layer1
-    // Por ejemplo, cambia la animación de la bala
+  bulletCollisionHandler(bullet) {
+ 
     bullet.anims.play("balaimpacto", false);
 
     // Destruye la bala
     bullet.destroy();
   }
+  
   backtomenu() {
     this.cameras.main.fadeIn(5000);
     this.music.pause();
     this.scene.start("menu");
+  }
+
+  hitenemy(enemy){
+    enemy.destroy();
+    console.log("MUERTO ENEMY")
   }
 }
