@@ -82,6 +82,13 @@ class debugRoom extends Phaser.Scene {
     this.player.body.setSize(this.player.width - 32, this.player.height);
 
     this.physics.add.collider(this.player, layer1);
+    this.physics.add.collider(
+      this.player.bullets,
+      layer1,
+      this.bulletCollisionHandler,
+      null,
+      this
+    );
 
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
@@ -199,6 +206,7 @@ class debugRoom extends Phaser.Scene {
     miniMapCam.ignore(this.versionText);
     miniMapCam.ignore(this.LivesText);
     miniMapCam.ignore(this.staminaText);
+    miniMapCam.ignore(this.player.bullets);
 
     //---------------
     //Follower Minmap
@@ -222,6 +230,7 @@ class debugRoom extends Phaser.Scene {
 
     this.cameras.main.ignore(this.follower);
     miniMapCam.ignore(this.player);
+    miniMapCam.ignore(this.player.arm);
 
     //----------------------
 
@@ -257,7 +266,6 @@ class debugRoom extends Phaser.Scene {
     // this.light.x = this.player.x;
     // this.light.y = this.player.y;
 
-
     this.follower.x = this.player.x;
     this.follower.y = this.player.y;
 
@@ -275,7 +283,14 @@ class debugRoom extends Phaser.Scene {
       `(${Math.round(this.player.x)}, ${Math.round(this.player.y)})`
     );
   }
+  bulletCollisionHandler(bullet, tile) {
+    // Aquí puedes manejar la colisión entre las balas y la capa de tiles layer1
+    // Por ejemplo, cambia la animación de la bala
+    bullet.anims.play("balaimpacto", false);
 
+    // Destruye la bala
+    bullet.destroy();
+  }
   backtomenu() {
     this.cameras.main.fadeIn(5000);
     this.music.pause();

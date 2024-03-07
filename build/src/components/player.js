@@ -30,35 +30,51 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.velocidadcaminar = 220;
     this.vidas = 3;
 
-
     this.arm = this.scene.add.sprite(this.x, this.y, "gun1");
 
-    this.arm.setDepth(1.5)
-    this.arm.scale = 0.3;
-    this.arm.setOrigin(0.2,0.5) 
-    this.scene.input.on("pointermove",(pointer)=>{
-      this.arm.rotation = Phaser.Math.Angle.BetweenPoints(this.arm,{x:pointer.worldX,y:pointer.worldY});
+    this.arm.setDepth(1.5);
+    this.arm.scale = 0.25;
+    this.arm.setOrigin(0.2, 0.5);
+    this.scene.input.on("pointermove", (pointer) => {
+      this.arm.rotation = Phaser.Math.Angle.BetweenPoints(this.arm, {
+        x: pointer.worldX,
+        y: pointer.worldY,
+      });
       this.flipX = pointer.worldX < this.x;
-      console.log(this.arm.rotation)
-      this.arm.flipY = this.arm.rotation < -Math.PI/2 || this.arm.rotation > Math.PI/2;
+      //console.log(this.arm.rotation)
+      this.arm.flipY =
+        this.arm.rotation < -Math.PI / 2 || this.arm.rotation > Math.PI / 2;
     });
+
+    this.bullets = this.scene.physics.add.group({
+      allowGravity: false,
+    });
+
+    this.maxBullets = 1; // Máximo de balas permitidas
+    this.currentBullets = 0; // Contador de balas disparadas
   }
 
   update() {
     if (this.body.y >= 1530) {
-        this.lostlive(this, this.vidas);
+      this.lostlive(this, this.vidas);
     }
 
     this.movement();
     this.dash();
     this.jump();
     this.armtoplayer();
+
+    if (this.scene.input.activePointer.isDown) {
+      if (this.currentBullets < this.maxBullets) {
+        this.shoot();
+        this.currentBullets++;
+      }
+    }
   }
 
-
-  armtoplayer(){
+  armtoplayer() {
     this.arm.x = this.x;
-    this.arm.y = this.y;
+    this.arm.y = this.y - 4.5;
   }
   movement() {
     if (
@@ -82,7 +98,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   dash() {
-    if (this.cursors.shift.isDown && this.timerdash > 1 ) {
+    if (this.cursors.shift.isDown && this.timerdash > 1) {
       //console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
       if (this.flipX == false) {
         this.body.setVelocityX(this.velocidadcaminar * 2.5);
@@ -121,6 +137,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.disableBody(true, true);
+    this.scene.cameras.main.shake(500);
+
+    // Cambiar temporalmente el color de la pantalla a rojo durante 500ms
+    this.scene.cameras.main.flash(500, 255, 0, 0);
 
     if (this.vidas > 0) {
       this.scene.time.addEvent({
@@ -163,5 +183,26 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  // Agrega otros métodos y funciones necesarios para el jugador
+  shoot() {
+    // Creamos una bala en la posición del jugador
+    let bullet = this.bullets.create(this.arm.x, this.arm.y, "bala");
+
+    // Calculamos la velocidad de la bala en función de la rotación del brazo
+    let velocityX = Math.cos(this.arm.rotation) * 600;
+    let velocityY = Math.sin(this.arm.rotation) * 600;
+
+    // Aplicamos la velocidad a la bala
+    bullet.setVelocity(velocityX, velocityY);
+
+    this.scene.time.delayedCall(300, () => {
+      this.currentBullets--;
+    });
+
+    this.scene.time.delayedCall(1000, () => {
+      bullet.destroy();
+    });
+
+    // Añadir animación a la bala
+    bullet.anims.play("baladisparo", false);
+  }
 }
