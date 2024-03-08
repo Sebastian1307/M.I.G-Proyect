@@ -46,7 +46,7 @@ class menuCredits extends Phaser.Scene {
       .text(
         400,
         450,
-        " Yo y mis pelotas",
+        "Sebastian Beltran - Programador y diseñador",
         { fontSize: "16px", fill: "#fff" }
       )
       .setOrigin(0.5);
