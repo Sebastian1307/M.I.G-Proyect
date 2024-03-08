@@ -1,5 +1,5 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, key) {
+  constructor(scene, x, y, key, live) {
     super(scene, x, y, key);
 
     scene.add.existing(this);
@@ -12,6 +12,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     // Velocidad de movimiento del enemigo
     this.speed = 150;
 
+    this.lives = live;
+
     // Estado inicial
     this.state = "moveRight";
 
@@ -22,7 +24,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.followDistance = 400;
 
     this.body.setSize(this.width - 32, this.height);
-
   }
 
   update() {
@@ -36,8 +37,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         break;
     }
 
-   
-
     // Calcular la distancia entre el enemigo y el jugador
     const distance = Phaser.Math.Distance.Between(
       this.x,
@@ -46,7 +45,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.player.y
     );
 
-    
     // Verificar colisiones con los tiles del suelo
     const blocked = {
       left: this.body.blocked.left,
@@ -63,13 +61,13 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     // Si el jugador está lo suficientemente cerca, seguirlo
     if (distance < this.followDistance) {
-        if (this.player.x < this.x) {
-          this.setVelocityX(-this.speed);
-          this.flipX = true;
-        } else {
-          this.setVelocityX(this.speed);
-          this.flipX = false;
-        }
+      if (this.player.x < this.x) {
+        this.setVelocityX(-this.speed);
+        this.flipX = true;
+      } else {
+        this.setVelocityX(this.speed);
+        this.flipX = false;
       }
+    }
   }
 }

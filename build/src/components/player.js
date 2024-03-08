@@ -25,11 +25,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.dashbool = true;
     this.timerdash = 700;
 
+    this.musicConfig = {
+      mute: false,
+      volume: 0.05,
+      rate: 1,
+      detune: 0.5,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    };
+
     this.aceleracion = 2;
     this.velocidadSalto = 450;
     this.velocidadcaminar = 220;
     this.vidas = 3;
-    this.energy = 3;
+    this.energy = 4;
 
     this.arm = this.scene.add.sprite(this.x, this.y, "gun1");
 
@@ -53,7 +63,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.maxBullets = 1; // Máximo de balas permitidas
     this.currentBullets = 0; // Contador de balas disparadas
-    this.disparo1 = this.scene.sound.add("bala1");
+    this.disparo1 = this.scene.sound.add("rifle");
+    this.pasosSound = this.scene.sound.add("pasos");
+    this.saltoSound = this.scene.sound.add("salto");
+    this.dashsound = this.scene.sound.add("dash");
+
   }
 
   update() {
@@ -86,6 +100,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     ) {
       if (this.body.onFloor()) {
         this.play("PlayerBetaRun", true);
+        // Reproducir el sonido de pasos
+        if (!this.pasosSound.isPlaying) {
+          this.pasosSound.play(this.musicConfig);
+        }
       }
 
       if (this.cursors.left.isDown || this.cursors.a.isDown) {
@@ -96,12 +114,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     } else if (this.body.onFloor()) {
       this.body.setVelocityX(0);
       this.play("PlayerBetaIdle3", true);
+      // Detener el sonido de pasos
+      this.pasosSound.stop();
     }
   }
 
   dash() {
     if (this.cursors.shift.isDown && this.timerdash > 1) {
-      //console.log("Posición de la cámara - X:", this.cameras.main.scrollX, "Y:", this.cameras.main.scrollY);
+      // Reproducir el sonido de dash
+      this.dashsound.play(this.musicConfig);
+
       if (this.flipX == false) {
         this.body.setVelocityX(this.velocidadcaminar * 2.5);
       } else {
@@ -109,15 +131,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       }
 
       this.timerdash -= 50;
-      //console.log(this.timerdash)
       this.dashbool = false;
     }
+
     if (this.cursors.shift.isUp) {
       this.dashbool = true;
     }
+
     if (this.timerdash < 700 && this.dashbool == true) {
       this.timerdash += 15;
-      //console.log("Recargando dash: ", this.timerdash);
     }
   }
 
@@ -130,6 +152,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     ) {
       this.play("PlayerBetaJumpStart", true);
       this.body.setVelocityY(-this.velocidadSalto);
+      // Reproducir el sonido de salto
+      this.saltoSound.play(this.musicConfig);
     }
   }
 
@@ -148,8 +172,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         callbackScope: this,
         loop: false,
       });
-    } else
-    if (this.energy <= 0) {
+    } else if (this.energy <= 0) {
       this.scene.time.addEvent({
         delay: 1000,
         callback: this.resetPlayer(this.vidas),
@@ -160,7 +183,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   minusenergy() {
-   
     this.energy -= 1;
     console.log("Energia ahora", this.energy);
     this.scene.time.delayedCall(2000, () => {
@@ -239,7 +261,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.time.delayedCall(1000, () => {
       bullet.destroy();
     });
-    this.disparo1.play();
+    this.disparo1.play(this.musicConfig);
     // Añadir animación a la bala
     bullet.anims.play("baladisparo", false);
   }

@@ -93,30 +93,32 @@ class debugRoom extends Phaser.Scene {
     //---------------------
     //ENEMIGOS
     this.enemiesGroup = this.physics.add.group();
-    this.enemy1 = new Enemy(this, 500, 1380, "enemy1");
+    this.enemy1 = new Enemy(this, 500, 1380, "enemy1",3);
     this.enemiesGroup.add(this.enemy1);
 
-    this.enemy2 = new Enemy(this, 550, 1380, "enemy1");
+    this.enemy2 = new Enemy(this, 550, 1380, "enemy1",3);
     this.enemiesGroup.add(this.enemy2);
 
-    this.enemy3 = new Enemy(this, 600, 1380, "enemy1");
+    this.enemy3 = new Enemy(this, 600, 1380, "enemy1",3);
     this.enemiesGroup.add(this.enemy3);
 
-    this.enemy4 = new Enemy(this, 1900, 850, "enemy1");
+    this.enemy4 = new Enemy(this, 1900, 850, "enemy1",5);
     this.enemiesGroup.add(this.enemy4);
 
     this.physics.add.collider(this.enemiesGroup, layer1);
     this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
 
 
-    
     this.physics.add.collider(
       this.player.bullets,
       this.enemiesGroup,
-      this.killenemy,
+      (bullet, enemy) => {
+          this.killenemy(enemy, bullet);
+      },
       null,
       this
-    );
+  );
+  
 
     this.physics.add.collider(
       this.player,
@@ -151,7 +153,7 @@ class debugRoom extends Phaser.Scene {
       this.cameras.main.scrollX + 100,
       this.cameras.main.scr2llY + 50,
 
-      "Version Alpha V.1.0",
+      "Version Alpha V.1.1",
       { fontSize: "16px", fill: "#ffffff" }
     );
 
@@ -195,7 +197,7 @@ class debugRoom extends Phaser.Scene {
 
     var musicConfig = {
       mute: false,
-      volume: 0.6,
+      volume: 0.3,
       rate: 1,
       detune: 0,
       seek: 0,
@@ -352,15 +354,24 @@ class debugRoom extends Phaser.Scene {
     bullet.destroy();
   }
 
+
   killenemy(enemy, bullet) {
-    bullet.anims.play("balaimpacto", false);
-    enemy.anims.play("balaimpacto",true);
-    enemy.destroy();
     bullet.destroy();
+    enemy.lives--;
+    console.log("Vida enemigo: ",enemy.lives)
+
+    if(enemy.lives <= 0){
+      console.log("Enemy killed")
+      enemy.destroy();
+    }
+    
+
     this.score += 5;
     console.log("Score: ", this.score);
   }
 
+ 
+  
   enemyhitplayer(){
     this.cameras.main.flash(200, 0, 0, 150);
     this.player.lostenergy();

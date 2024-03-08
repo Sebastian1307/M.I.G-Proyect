@@ -50,7 +50,13 @@ class MainMenu extends Phaser.Scene {
     this.close1 = this.sound.add("close1");
     this.close2 = this.sound.add("close2");
 
-    this.music = this.sound.add("ost1Menu");
+
+    this.atras = this.sound.add("atras");
+    this.confirm = this.sound.add("confirm");
+    this.hover = this.sound.add("hover");
+
+    this.music = this.sound.add("title");
+    
 
     this.ships = this.add.group();
     this.ships.add(this.ship1);
@@ -108,7 +114,7 @@ class MainMenu extends Phaser.Scene {
       hudMenu.x + effectiveWidth / 2, // Alinea el texto al centro horizontalmente
       hudMenu.y + 260,
       "pixelFont",
-      "Build Version Alpha V.1.0",
+      "Build Version Alpha V.1.1",
       24
     );
     versionText.setOrigin(0.5);
@@ -134,7 +140,7 @@ class MainMenu extends Phaser.Scene {
     });
     var musicConfig = {
       mute: false,
-      volume: 0.6,
+      volume: 0.4,
       rate: 1,
       detune: 0,
       seek: 0,
@@ -145,12 +151,12 @@ class MainMenu extends Phaser.Scene {
 
     debugButton.on("pointerdown", () => {
       this.cameras.main.fadeOut(3000);
-      this.close2.play();
+      this.confirm.play();
       this.music.pause();
       this.scene.start("debugRoom");
     });
     creditsbutton.on("pointerdown", () => {
-      this.close2.play();
+      this.confirm.play();
       this.music.pause();
 
       this.cameras.main.fadeOut(1000);

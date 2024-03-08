@@ -93,10 +93,50 @@ class loaderScreen extends Phaser.Scene {
       "assets/sfx_ost/hud/close02.ogg",
       "assets/sfx_ost/hud/close02.mp3",
     ]);
+    this.load.audio("atras", [
+      "assets/sfx_ost/hud/atras.ogg",
+      "assets/sfx_ost/hud/atras.mp3",
+    ]);
+    this.load.audio("confirm", [
+      "assets/sfx_ost/hud/confirm.ogg",
+      "assets/sfx_ost/hud/confirm.mp3",
+    ]);
+    this.load.audio("hover", [
+      "assets/sfx_ost/hud/hover.ogg",
+      "assets/sfx_ost/hud/hover.mp3",
+    ]);
+
+
+    this.load.audio("dash", [
+      "assets/sfx_ost/player/dash.ogg",
+      "assets/sfx_ost/player/dash.mp3",
+    ]);
+    this.load.audio("salto", [
+      "assets/sfx_ost/player/salto.ogg",
+      "assets/sfx_ost/player/salto.mp3",
+    ]);
+    this.load.audio("pasos", [
+      "assets/sfx_ost/player/pasos.ogg",
+      "assets/sfx_ost/player/pasos.mp3",
+    ]);
+    this.load.audio("regen", [
+      "assets/sfx_ost/player/regenerate.ogg",
+      "assets/sfx_ost/player/regenerate.mp3",
+    ]);
+    this.load.audio("respawn", [
+      "assets/sfx_ost/player/respawn.ogg",
+      "assets/sfx_ost/player/respawn.mp3",
+    ]);
+
+
 
     this.load.audio("bala1", [
       "assets/sfx_ost/bullets/disparo.ogg",
       "assets/sfx_ost/bullets/disparo.mp3",
+    ]);
+    this.load.audio("rifle", [
+      "assets/sfx_ost/bullets/rifle.ogg",
+      "assets/sfx_ost/bullets/rifle.mp3",
     ]);
 
     //Loaders Audio OST
@@ -107,6 +147,10 @@ class loaderScreen extends Phaser.Scene {
     this.load.audio("ost2DebugRoom", [
       "assets/sfx_ost/ost/debugroomost.ogg",
       "assets/sfx_ost/ost/debugroomost.mp3",
+    ]);
+    this.load.audio("title", [
+      "assets/sfx_ost/ost/titletheme.ogg",
+      "assets/sfx_ost/ost/titletheme.mp3",
     ]);
 
     //Loaders Mapas
