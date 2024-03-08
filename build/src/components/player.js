@@ -28,7 +28,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.aceleracion = 2;
     this.velocidadSalto = 450;
     this.velocidadcaminar = 220;
-    this.vidas = 0;
+    this.vidas = 3;
+    this.energy = 3;
 
     this.arm = this.scene.add.sprite(this.x, this.y, "gun1");
 
@@ -132,6 +133,41 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  lostenergy() {
+    if (this.alpha < 1) {
+      return;
+    }
+    this.scene.cameras.main.shake(100);
+    this.scene.cameras.main.flash(100, 0, 0, 10);
+    this.alpha = 0.5;
+
+    if (this.energy > 0) {
+      this.scene.time.addEvent({
+        delay: 1000,
+        callback: this.minusenergy(this.energy),
+        callbackScope: this,
+        loop: false,
+      });
+    } else
+    if (this.energy <= 0) {
+      this.scene.time.addEvent({
+        delay: 1000,
+        callback: this.resetPlayer(this.vidas),
+        callbackScope: this,
+        loop: false,
+      });
+    }
+  }
+
+  minusenergy() {
+   
+    this.energy -= 1;
+    console.log("Energia ahora", this.energy);
+    this.scene.time.delayedCall(2000, () => {
+      this.alpha = 1;
+    });
+  }
+
   lostlive() {
     if (this.alpha < 1) {
       return;
@@ -144,7 +180,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.cameras.main.flash(500, 255, 0, 0);
 
     if (this.vidas > 0) {
-      
       this.scene.time.addEvent({
         delay: 1000,
         callback: this.resetPlayer(this.vidas),
@@ -163,6 +198,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   resetPlayer() {
     this.vidas += -1;
+    this.energy = 5;
     console.log("Vida ahora:", this.vidas);
 
     var x = 179;

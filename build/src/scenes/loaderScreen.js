@@ -122,11 +122,15 @@ class loaderScreen extends Phaser.Scene {
 
     const progress = this.add.graphics();
  // Mensaje de "Cargando"
- const loadingText = this.add.text(500, 300, "Cargando...", {
+ const Title = this.add.text(350, 150, "MIG PROYECT", {
+  font: "54px Arial",
+  fill: "#ffffff"
+});
+ const loadingText = this.add.text(540, 295, "Cargando...", {
   font: "24px Arial",
   fill: "#000000"
 });
-const Empresaname = this.add.text(420, 320, "By Skywalker1307", {
+const Empresaname = this.add.text(440, 320, "By Skywalker1307", {
   font: "24px Arial",
   fill: "#ffffff"
 });
@@ -136,7 +140,7 @@ loadingText.setOrigin(0.5);
     this.load.on("progress", function (value) {
         progress.clear();
         progress.fillStyle(0xffffff, 1);
-        progress.fillRect(400, 280, 300 * value, 30);
+        progress.fillRect(380, 280, 300 * value, 30);
     });
   }
 
@@ -235,9 +239,10 @@ loadingText.setOrigin(0.5);
       
     });
 
-    // Agrega una transición de fundido negro (fade) al cambiar de escena
-    this.scene.start("menu");
-    //this.scene.start("debugRoom");
+    this.scene.start("menu"); 
+         //this.scene.start("debugRoom");   
+
+   
   }
 
   update() {}

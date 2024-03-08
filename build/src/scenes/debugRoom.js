@@ -8,6 +8,7 @@ class debugRoom extends Phaser.Scene {
   preload() {}
 
   create() {
+    this.score = 0;
     // load the map
     const map = this.make.tilemap({ key: "map" });
     const tiles = map.addTilesetImage("tilesetDebugLv1_2", "tiles");
@@ -89,6 +90,7 @@ class debugRoom extends Phaser.Scene {
     this.physics.world.bounds.width = layer1.width;
     this.physics.world.bounds.height = layer1.height;
 
+    //---------------------
     //ENEMIGOS
     this.enemiesGroup = this.physics.add.group();
     this.enemy1 = new Enemy(this, 500, 1380, "enemy1");
@@ -96,8 +98,33 @@ class debugRoom extends Phaser.Scene {
 
     this.enemy2 = new Enemy(this, 550, 1380, "enemy1");
     this.enemiesGroup.add(this.enemy2);
+
+    this.enemy3 = new Enemy(this, 600, 1380, "enemy1");
+    this.enemiesGroup.add(this.enemy3);
+
+    this.enemy4 = new Enemy(this, 1900, 850, "enemy1");
+    this.enemiesGroup.add(this.enemy4);
+
     this.physics.add.collider(this.enemiesGroup, layer1);
     this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
+
+
+    
+    this.physics.add.collider(
+      this.player.bullets,
+      this.enemiesGroup,
+      this.killenemy,
+      null,
+      this
+    );
+
+    this.physics.add.collider(
+      this.player,
+      this.enemiesGroup,
+      this.enemyhitplayer,
+      null,
+      this
+    );
 
     //---------------------
 
@@ -109,7 +136,7 @@ class debugRoom extends Phaser.Scene {
     );
 
     //this.cameras.main.setZoom(1.5, 2);
-    this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+    this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
     this.coordinatesText = this.add.text(
       this.player.x,
@@ -124,7 +151,7 @@ class debugRoom extends Phaser.Scene {
       this.cameras.main.scrollX + 100,
       this.cameras.main.scr2llY + 50,
 
-      "Version Alpha V.0.1.6.1",
+      "Version Alpha V.1.0",
       { fontSize: "16px", fill: "#ffffff" }
     );
 
@@ -141,6 +168,17 @@ class debugRoom extends Phaser.Scene {
 
     this.LivesText.setOrigin(0.5);
     this.LivesText.setDepth(5); // Asegúrate de que el texto esté delante de todo
+
+    this.EnergyText = this.add.text(
+      this.cameras.main.scrollX + 40,
+      this.cameras.main.scrollY + 50,
+
+      "",
+      { fontSize: "16px", fill: "#ffffff" }
+    );
+
+    this.EnergyText.setOrigin(0.5);
+    this.EnergyText.setDepth(5); // Asegúrate de que el texto esté delante de todo
 
     this.staminaText = this.add.text(
       this.cameras.main.scrollX + 40,
@@ -200,7 +238,7 @@ class debugRoom extends Phaser.Scene {
     });
 
     // Follow the player with the mini map camera
-    miniMapCam.startFollow(this.player, true, 0.05, 0.05);
+    miniMapCam.startFollow(this.player, true, 0.1, 0.1);
 
     // Clamp mini map camera to map bounds
     miniMapCam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -214,6 +252,8 @@ class debugRoom extends Phaser.Scene {
     miniMapCam.ignore(this.coordinatesText);
     miniMapCam.ignore(this.versionText);
     miniMapCam.ignore(this.LivesText);
+    miniMapCam.ignore(this.EnergyText);
+
     miniMapCam.ignore(this.staminaText);
     miniMapCam.ignore(this.player.bullets);
 
@@ -261,7 +301,7 @@ class debugRoom extends Phaser.Scene {
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(
-      this.cameras.main.scrollX + 120,
+      this.cameras.main.scrollX + 100,
       this.cameras.main.scrollY + 20
     );
 
@@ -271,11 +311,19 @@ class debugRoom extends Phaser.Scene {
     );
     this.LivesText.setText("Vidas: " + this.player.vidas);
 
+    
+
     this.staminaText.setPosition(
       this.cameras.main.scrollX + 70,
       this.cameras.main.scrollY + 55
     );
     this.staminaText.setText("Stamina: " + this.player.timerdash);
+
+    this.EnergyText.setPosition(
+      this.cameras.main.scrollX + 60,
+      this.cameras.main.scrollY + 75
+    );
+    this.EnergyText.setText("Energia: " + this.player.energy);
 
     // this.light.x = this.player.x;
     // this.light.y = this.player.y;
@@ -304,21 +352,25 @@ class debugRoom extends Phaser.Scene {
     bullet.destroy();
   }
 
-  backtomenu() {
-    this.cameras.main.shake(1000);
-    this.cameras.main.flash(1000, 255, 0, 0);
-    this.scene.time.delayedCall(250, () => {
-      this.currentBullets--;
-    });
-  }
-  backtomenu2(){
-    this.cameras.main.fadeIn(5000);
-    this.music.pause();
-    this.scene.start("menu");
+  killenemy(enemy, bullet) {
+    bullet.anims.play("balaimpacto", false);
+    enemy.anims.play("balaimpacto",true);
+    enemy.destroy();
+    bullet.destroy();
+    this.score += 5;
+    console.log("Score: ", this.score);
   }
 
-  hitenemy(enemy) {
-    enemy.destroy();
-    console.log("MUERTO ENEMY");
+  enemyhitplayer(){
+    this.cameras.main.flash(200, 0, 0, 150);
+    this.player.lostenergy();
+  }
+
+  backtomenu() {
+    this.cameras.main.shake(500);
+    this.cameras.main.flash(500, 255, 0, 0);
+    this.cameras.main.fadeOut(1000);
+    this.music.stop();
+    this.scene.start("menu");
   }
 }

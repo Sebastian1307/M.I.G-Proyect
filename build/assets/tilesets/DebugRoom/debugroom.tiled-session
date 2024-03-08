@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "debugroomtile1.json",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,15 +17,15 @@
             "scaleInDock": 1
         },
         "debugroomtile1.json": {
-            "scale": 0.25,
-            "selectedLayer": 2,
+            "scale": 0.33,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 1438,
-                "y": 1320
+                "x": 2593.939393939394,
+                "y": 1057.5757575757577
             }
         },
         "debugroomtile1.json#tilesetDebugLv1_2": {
-            "scaleInDock": 2
+            "scaleInDock": 3
         },
         "debugroomtile1.tmx": {
             "scale": 0.33,
@@ -52,6 +52,7 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 300,
     "openFiles": [
+        "debugroomtile1.json"
     ],
     "project": "debugroom.tiled-project",
     "recentFiles": [

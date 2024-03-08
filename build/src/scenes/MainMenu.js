@@ -80,7 +80,7 @@ class MainMenu extends Phaser.Scene {
       hudMenu.y - 200,
       "pixelFont",
       "Proyect - M.I.G",
-      48
+      54
     );
     titletext.setOrigin(0.5);
 
@@ -88,8 +88,8 @@ class MainMenu extends Phaser.Scene {
       hudMenu.x + effectiveWidth / 2, // Alinea el texto al centro horizontalmente
       hudMenu.y,
       "pixelFont",
-      "Ir a Debug Room",
-      48
+      "Jugar",
+      54
     );
     debugButton.setOrigin(0.5);
     debugButton.setInteractive();
@@ -108,7 +108,7 @@ class MainMenu extends Phaser.Scene {
       hudMenu.x + effectiveWidth / 2, // Alinea el texto al centro horizontalmente
       hudMenu.y + 260,
       "pixelFont",
-      "Build Version Alpha V.0.1.6.1",
+      "Build Version Alpha V.1.0",
       24
     );
     versionText.setOrigin(0.5);

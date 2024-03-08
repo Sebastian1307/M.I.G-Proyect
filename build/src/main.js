@@ -5,7 +5,7 @@ var config = {
   type: Phaser.AUTO,
   width: 1080,
   height: 600,
-  pixelArt: true,
+  pixelArt: false,
   scene: [loaderScreen, MainMenu, debugRoom, menuCredits],
   pipeline: { ScalinePostFX },
   physics: {
