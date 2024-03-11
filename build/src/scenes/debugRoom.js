@@ -75,6 +75,9 @@ class debugRoom extends Phaser.Scene {
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
 
+
+
+
     this.player.setCollideWorldBounds(true);
     this.player.body.setSize(this.player.width - 32, this.player.height);
 
@@ -339,6 +342,8 @@ class debugRoom extends Phaser.Scene {
         this.cameras.main.height - 10
       );
     });
+
+    this.background.tilePositionX = this.cameras.main.scrollX * .1;
     this.background2.tilePositionY -= 3;
 
     this.background3.tilePositionX -= 0.7;

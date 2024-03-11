@@ -248,8 +248,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     let bullet = this.bullets.create(this.arm.x, this.arm.y, "bala");
     bullet.rotation = this.arm.rotation;
     // Calculamos la velocidad de la bala en función de la rotación del brazo
-    let velocityX = Math.cos(this.arm.rotation) * 600;
-    let velocityY = Math.sin(this.arm.rotation) * 600;
+    let velocityX = Math.cos(this.arm.rotation) * 800;
+    let velocityY = Math.sin(this.arm.rotation) * 800;
 
     // Aplicamos la velocidad a la bala
     bullet.setVelocity(velocityX, velocityY);

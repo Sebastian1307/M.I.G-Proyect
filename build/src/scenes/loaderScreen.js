@@ -42,7 +42,7 @@ class loaderScreen extends Phaser.Scene {
     //Loaders Player y characters
     this.load.spritesheet(
       "playerbeta",
-      "assets/characters/player/debugchar/playerbeta.png",
+      "assets/characters/player/debugchar/playerbetaconcept3.png",
       {
         frameWidth: 48,
         frameHeight: 48,
