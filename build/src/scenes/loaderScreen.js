@@ -283,8 +283,8 @@ loadingText.setOrigin(0.5);
       
     });
 
-    this.scene.start("menu"); 
-         //this.scene.start("debugRoom");   
+    //this.scene.start("menu"); 
+    this.scene.start("debugRoom");   
 
    
   }

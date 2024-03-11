@@ -5,7 +5,7 @@ class debugRoom extends Phaser.Scene {
     super("debugRoom");
   }
 
-  preload() {}
+  preload() { }
 
   create() {
     this.score = 0;
@@ -96,16 +96,16 @@ class debugRoom extends Phaser.Scene {
     //---------------------
     //ENEMIGOS
     this.enemiesGroup = this.physics.add.group();
-    this.enemy1 = new Enemy(this, 500, 1380, "enemy1",3);
+    this.enemy1 = new Enemy(this, 500, 1380, "enemy1", 3, 150, 1);
     this.enemiesGroup.add(this.enemy1);
 
-    this.enemy2 = new Enemy(this, 550, 1380, "enemy1",3);
+    this.enemy2 = new Enemy(this, 550, 1380, "enemy1", 3, 150, 1);
     this.enemiesGroup.add(this.enemy2);
 
-    this.enemy3 = new Enemy(this, 600, 1380, "enemy1",3);
+    this.enemy3 = new Enemy(this, 600, 1380, "enemy1", 10, 60, 2);
     this.enemiesGroup.add(this.enemy3);
 
-    this.enemy4 = new Enemy(this, 1900, 850, "enemy1",5);
+    this.enemy4 = new Enemy(this, 1900, 850, "enemy1", 5, 100, 3);
     this.enemiesGroup.add(this.enemy4);
 
     this.physics.add.collider(this.enemiesGroup, layer1);
@@ -116,12 +116,12 @@ class debugRoom extends Phaser.Scene {
       this.player.bullets,
       this.enemiesGroup,
       (bullet, enemy) => {
-          this.killenemy(enemy, bullet);
+        this.killenemy(enemy, bullet);
       },
       null,
       this
-  );
-  
+    );
+
 
     this.physics.add.collider(
       this.player,
@@ -290,6 +290,7 @@ class debugRoom extends Phaser.Scene {
     //----------------------
 
     this.cameras.main.setPostPipeline(ScalinePostFX);
+    this.cameras.main.setZoom(1.2)
 
     const shader = this.cameras.main.getPostPipeline(ScalinePostFX);
 
@@ -306,27 +307,27 @@ class debugRoom extends Phaser.Scene {
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(
-      this.cameras.main.scrollX + 100,
-      this.cameras.main.scrollY + 20
+      this.cameras.main.scrollX + 190,
+      this.cameras.main.scrollY + 60
     );
 
     this.LivesText.setPosition(
-      this.cameras.main.scrollX + 50,
-      this.cameras.main.scrollY + 40
+      this.cameras.main.scrollX + 140,
+      this.cameras.main.scrollY + 80
     );
     this.LivesText.setText("Vidas: " + this.player.vidas);
 
-    
+
 
     this.staminaText.setPosition(
-      this.cameras.main.scrollX + 70,
-      this.cameras.main.scrollY + 55
+      this.cameras.main.scrollX + 160,
+      this.cameras.main.scrollY + 120
     );
     this.staminaText.setText("Stamina: " + this.player.timerdash);
 
     this.EnergyText.setPosition(
-      this.cameras.main.scrollX + 60,
-      this.cameras.main.scrollY + 75
+      this.cameras.main.scrollX + 150,
+      this.cameras.main.scrollY + 100
     );
     this.EnergyText.setText("Energia: " + this.player.energy);
 
@@ -353,8 +354,6 @@ class debugRoom extends Phaser.Scene {
     );
   }
   bulletCollisionHandler(bullet) {
-    bullet.anims.play("balaimpacto", false);
-
     // Destruye la bala
     bullet.destroy();
   }
@@ -362,22 +361,23 @@ class debugRoom extends Phaser.Scene {
 
   killenemy(enemy, bullet) {
     bullet.destroy();
+    enemy.flashColor();
     enemy.lives--;
-    console.log("Vida enemigo: ",enemy.lives)
+    console.log("Vida enemigo: ", enemy.lives)
 
-    if(enemy.lives <= 0){
+    if (enemy.lives <= 0) {
       console.log("Enemy killed")
       enemy.destroy();
     }
-    
+
 
     this.score += 5;
     console.log("Score: ", this.score);
   }
 
- 
-  
-  enemyhitplayer(){
+
+
+  enemyhitplayer() {
     this.cameras.main.flash(200, 0, 0, 150);
     this.player.lostenergy();
   }

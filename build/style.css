@@ -1,0 +1,5 @@
+body{
+    background-image: url(assets/hud_gui/hudMenu1.PNG);
+    background-size:contain;
+    overflow: hidden;
+}

@@ -35,11 +35,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       delay: 0,
     };
 
-    this.aceleracion = 2;
+    this.aceleracion = 1.5;
     this.velocidadSalto = 450;
     this.velocidadcaminar = 220;
     this.vidas = 3;
-    this.energy = 4;
+    this.energy = 5;
 
     this.arm = this.scene.add.sprite(this.x, this.y, "gun1");
 
@@ -67,7 +67,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.pasosSound = this.scene.sound.add("pasos");
     this.saltoSound = this.scene.sound.add("salto");
     this.dashsound = this.scene.sound.add("dash");
-
+    this.isInvulnerable = false;
   }
 
   update() {
@@ -87,6 +87,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
   }
+
 
   armtoplayer() {
     this.arm.x = this.x;
@@ -146,8 +147,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   jump() {
     if (
       this.cursors.space.isDown ^
-        this.cursors.w.isDown ^
-        this.cursors.up.isDown &&
+      this.cursors.w.isDown ^
+      this.cursors.up.isDown &&
       this.body.onFloor()
     ) {
       this.play("PlayerBetaJumpStart", true);
@@ -158,38 +159,48 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   lostenergy() {
-    if (this.alpha < 1) {
+    // Si el jugador ya está en su estado invulnerable, sal de la función
+    if (this.isInvulnerable) {
       return;
     }
+  
+    // Flash azul y reducción de opacidad
     this.scene.cameras.main.shake(100);
     this.scene.cameras.main.flash(100, 0, 0, 10);
     this.alpha = 0.5;
-
+  
+    // Establecer el estado invulnerable
+    this.isInvulnerable = true;
+  
     if (this.energy > 0) {
       this.scene.time.addEvent({
         delay: 1000,
-        callback: this.minusenergy(this.energy),
+        callback: this.minusenergy,
         callbackScope: this,
         loop: false,
       });
     } else if (this.energy <= 0) {
       this.scene.time.addEvent({
         delay: 1000,
-        callback: this.resetPlayer(this.vidas),
+        callback: this.resetPlayer,
         callbackScope: this,
         loop: false,
       });
     }
-  }
-
-  minusenergy() {
-    this.energy -= 1;
-    console.log("Energia ahora", this.energy);
+  
+    // Restaurar la opacidad después de un tiempo
     this.scene.time.delayedCall(2000, () => {
       this.alpha = 1;
+      this.isInvulnerable = false; // Restaurar el estado invulnerable
     });
   }
+  
+  minusenergy() {
+    this.energy -= 1;
+    console.log("Energía ahora", this.energy);
+  }
 
+  
   lostlive() {
     if (this.alpha < 1) {
       return;

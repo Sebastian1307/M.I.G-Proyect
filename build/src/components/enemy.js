@@ -1,5 +1,5 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, key, live) {
+  constructor(scene, x, y, key, live, speed,colorID) {
     super(scene, x, y, key);
 
     scene.add.existing(this);
@@ -10,8 +10,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     this.body.allowGravity = true; // Evita que la gravedad afecte al enemigo
     // Velocidad de movimiento del enemigo
-    this.speed = 150;
+    this.speed = speed;
 
+    
     this.lives = live;
 
     // Estado inicial
@@ -24,6 +25,21 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.followDistance = 400;
 
     this.body.setSize(this.width - 32, this.height);
+
+    // Mapeo de IDs de color a colores correspondientes
+    this.colorMap = {
+      1: 0xff0000, // Rojo
+      2: 0x00ff00, // Verde
+      3: 0x0000ff, // Azul
+      // Añade más colores según necesites
+    };
+
+    // Aplicar tint al enemigo según el colorID proporcionado
+    if (this.colorMap.hasOwnProperty(colorID)) {
+      this.setTint(this.colorMap[colorID]);
+    }
+    this.defaultColor = this.tint; // Guardar el color original
+    this.restoreTintTimer = null;
   }
 
   update() {
@@ -70,4 +86,16 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       }
     }
   }
+
+  flashColor() {
+    // Cambiar temporalmente el color del enemigo
+    this.setTint(0xffffff); // Color blanco, puedes ajustar este color según lo necesites
+
+    // Restaurar el color original después de un tiempo
+    this.scene.time.delayedCall(50, () => {
+      this.setTint(this.defaultColor);
+    });
+  }
+
+
 }
