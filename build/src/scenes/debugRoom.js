@@ -36,15 +36,51 @@ class debugRoom extends Phaser.Scene {
     // Crear el TileSprite del background
     this.background = this.add.tileSprite(
       0,
-      0,
+      -250,
       map.widthInPixels, // Usar map.widthInPixels para el ancho del mapa
       map.heightInPixels, // Usar map.heightInPixels para el alto del mapa
-      "bg_debugroom1"
+      "bg1_capa1"
     );
 
     this.background.setOrigin(0); // Asegurarse de que el origen del TileSprite esté en la esquina superior izquierda
     this.background.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
-    this.background.setDepth(-3); // Ajustar la profundidad para que esté detrás de todas las capas
+    this.background.setDepth(-4); // Ajustar la profundidad para que esté detrás de todas las capas
+
+    // Crear el TileSprite del background
+    this.backgroundC2 = this.add.tileSprite(
+      0,
+      -40,
+      map.widthInPixels, // Usar map.widthInPixels para el ancho del mapa
+      map.heightInPixels - 500, // Usar map.heightInPixels para el alto del mapa
+      "bg1_capa2"
+    );
+    this.backgroundC2.setOrigin(0); // Asegurarse de que el origen del TileSprite esté en la esquina superior izquierda
+    this.backgroundC2.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
+    this.backgroundC2.setDepth(-3.5); // Ajustar la profundidad para que esté detrás de todas las capas
+
+    // Crear el TileSprite del background
+    this.backgroundC3 = this.add.tileSprite(
+      0,
+      -260,
+      map.widthInPixels, // Usar map.widthInPixels para el ancho del mapa
+      map.heightInPixels - 490, // Usar map.heightInPixels para el alto del mapa
+      "bg1_capa3"
+    );
+    this.backgroundC3.setOrigin(0); // Asegurarse de que el origen del TileSprite esté en la esquina superior izquierda
+    this.backgroundC3.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
+    this.backgroundC3.setDepth(-3.3); // Ajustar la profundidad para que esté detrás de todas las capas
+
+    // Crear el TileSprite del background
+    this.backgroundC4 = this.add.tileSprite(
+      0,
+      -240,
+      map.widthInPixels, // Usar map.widthInPixels para el ancho del mapa
+      map.heightInPixels, // Usar map.heightInPixels para el alto del mapa
+      "bg1_capa4"
+    );
+    this.backgroundC4.setOrigin(0); // Asegurarse de que el origen del TileSprite esté en la esquina superior izquierda
+    this.backgroundC4.setScrollFactor(0); // Hacer que el TileSprite no se mueva con la cámara
+    this.backgroundC4.setDepth(-3.2); // Ajustar la profundidad para que esté detrás de todas las capas
 
     this.background2 = this.add.tileSprite(
       0,
@@ -247,6 +283,9 @@ class debugRoom extends Phaser.Scene {
     miniMapCam.ignore(layer1);
     miniMapCam.ignore(layer2);
     miniMapCam.ignore(this.background);
+    miniMapCam.ignore(this.backgroundC2);
+    miniMapCam.ignore(this.backgroundC3);
+    miniMapCam.ignore(this.backgroundC4);
     miniMapCam.ignore(this.background2);
     miniMapCam.ignore(this.background3);
     miniMapCam.ignore(this.coordinatesText);
@@ -338,6 +377,10 @@ class debugRoom extends Phaser.Scene {
     });
 
     this.background.tilePositionX = this.cameras.main.scrollX * 0.1;
+    this.backgroundC2.tilePositionX = this.cameras.main.scrollX * 0.2;
+    this.backgroundC3.tilePositionX = this.cameras.main.scrollX * 0.3;
+    this.backgroundC4.tilePositionX = this.cameras.main.scrollX * 0.4;
+
     this.background2.tilePositionY -= 3;
 
     this.background3.tilePositionX -= 0.7;
@@ -372,7 +415,6 @@ class debugRoom extends Phaser.Scene {
   }
 
   backtomenu() {
-    
     this.cameras.main.fadeOut(5000);
     this.music.stop();
     this.scene.start("menu");

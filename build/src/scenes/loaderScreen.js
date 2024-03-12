@@ -24,6 +24,26 @@ class loaderScreen extends Phaser.Scene {
       "assets/backgrounds/DebugRoom/bg_debug_room.jpg"
     );
 
+
+    // fondo primer nivel
+
+    this.load.image(
+      "bg1_capa1",
+      "assets/backgrounds/DebugRoom/CAPA1.png"
+    );
+    this.load.image(
+      "bg1_capa2",
+      "assets/backgrounds/DebugRoom/CAPA2.png"
+    );
+    this.load.image(
+      "bg1_capa3",
+      "assets/backgrounds/DebugRoom/CAPA3.png"
+    );
+    this.load.image(
+      "bg1_capa4",
+      "assets/backgrounds/DebugRoom/CAPA4.png"
+    );
+
     //Loaders Hud Y Gui
 
     this.load.image("hudmenu1", "assets/hud_gui/hudMenu1.PNG");
