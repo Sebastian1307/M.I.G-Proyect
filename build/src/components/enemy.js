@@ -43,6 +43,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
+
+
+    this.explode();
+
+    this.play("enemywalk",true);
+
     switch (this.state) {
       case "moveRight":
         this.setVelocityX(this.speed);
@@ -85,7 +91,13 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.flipX = false;
       }
     }
+    
   }
+  explode(){
+    //console.log("llamado explosion")
+    this.play("enemyexplode",true);
+  }
+  
 
   flashColor() {
     // Cambiar temporalmente el color del enemigo

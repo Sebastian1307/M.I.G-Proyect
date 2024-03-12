@@ -250,14 +250,24 @@ loadingText.setOrigin(0.5);
 
     //ANIMACIONES ENEMIGOS
     this.anims.create({
-      key: "enemywalk",
+      key:"enemywalk",
       frames: this.anims.generateFrameNumbers("enemy1", {
         start: 0,
-        end: 0,
+        end: 3,
       }),
-      frameRate: 1,
+      frameRate: 3,
       repeat: 0,
     });
+    this.anims.create({
+      key:"enemyexplode",
+      frames: this.anims.generateFrameNumbers("enemy1", {
+        start: 5,
+        end: 15,
+      }),
+      frameRate: 12,
+      repeat: 0,
+    });
+
 
     // ANIMACIONES BALAS
 
@@ -283,8 +293,8 @@ loadingText.setOrigin(0.5);
       
     });
 
-    //this.scene.start("menu"); 
-    this.scene.start("debugRoom");   
+    this.scene.start("menu"); 
+    //this.scene.start("debugRoom");   
 
    
   }

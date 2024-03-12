@@ -5,7 +5,7 @@ class debugRoom extends Phaser.Scene {
     super("debugRoom");
   }
 
-  preload() { }
+  preload() {}
 
   create() {
     this.score = 0;
@@ -75,9 +75,6 @@ class debugRoom extends Phaser.Scene {
     this.player.setDepth(1); // Fondo
     this.player.setTint(0xffffff);
 
-
-
-
     this.player.setCollideWorldBounds(true);
     this.player.body.setSize(this.player.width - 32, this.player.height);
 
@@ -111,7 +108,6 @@ class debugRoom extends Phaser.Scene {
     this.physics.add.collider(this.enemiesGroup, layer1);
     this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
 
-
     this.physics.add.collider(
       this.player.bullets,
       this.enemiesGroup,
@@ -121,7 +117,6 @@ class debugRoom extends Phaser.Scene {
       null,
       this
     );
-
 
     this.physics.add.collider(
       this.player,
@@ -290,7 +285,7 @@ class debugRoom extends Phaser.Scene {
     //----------------------
 
     this.cameras.main.setPostPipeline(ScalinePostFX);
-    this.cameras.main.setZoom(1.2)
+    this.cameras.main.setZoom(1.2);
 
     const shader = this.cameras.main.getPostPipeline(ScalinePostFX);
 
@@ -307,8 +302,8 @@ class debugRoom extends Phaser.Scene {
     //this.versionText.setScrollFactor(0);
     this.coordinatesText.setPosition(this.player.x, this.player.y - 20);
     this.versionText.setPosition(
-      this.cameras.main.scrollX + 190,
-      this.cameras.main.scrollY + 60
+      this.cameras.main.scrollX + 880,
+      this.cameras.main.scrollY + 530
     );
 
     this.LivesText.setPosition(
@@ -316,8 +311,6 @@ class debugRoom extends Phaser.Scene {
       this.cameras.main.scrollY + 80
     );
     this.LivesText.setText("Vidas: " + this.player.vidas);
-
-
 
     this.staminaText.setPosition(
       this.cameras.main.scrollX + 160,
@@ -344,7 +337,7 @@ class debugRoom extends Phaser.Scene {
       );
     });
 
-    this.background.tilePositionX = this.cameras.main.scrollX * .1;
+    this.background.tilePositionX = this.cameras.main.scrollX * 0.1;
     this.background2.tilePositionY -= 3;
 
     this.background3.tilePositionX -= 0.7;
@@ -358,34 +351,29 @@ class debugRoom extends Phaser.Scene {
     bullet.destroy();
   }
 
-
   killenemy(enemy, bullet) {
     bullet.destroy();
     enemy.flashColor();
     enemy.lives--;
-    console.log("Vida enemigo: ", enemy.lives)
+    console.log("Vida enemigo: ", enemy.lives);
 
     if (enemy.lives <= 0) {
-      console.log("Enemy killed")
+      enemy.explode();
       enemy.destroy();
     }
-
 
     this.score += 5;
     console.log("Score: ", this.score);
   }
 
-
-
   enemyhitplayer() {
-    this.cameras.main.flash(200, 0, 0, 150);
+    this.cameras.main.flash(100, 0, 0, 150);
     this.player.lostenergy();
   }
 
   backtomenu() {
-    this.cameras.main.shake(500);
-    this.cameras.main.flash(500, 255, 0, 0);
-    this.cameras.main.fadeOut(1000);
+    
+    this.cameras.main.fadeOut(5000);
     this.music.stop();
     this.scene.start("menu");
   }
