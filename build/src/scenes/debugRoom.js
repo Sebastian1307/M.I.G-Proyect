@@ -144,7 +144,7 @@ class debugRoom extends Phaser.Scene {
     this.physics.add.collider(this.enemiesGroup, layer1);
     this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
 
-    this.physics.add.collider(
+    this.physics.add.collider(  
       this.player.bullets,
       this.enemiesGroup,
       (bullet, enemy) => {

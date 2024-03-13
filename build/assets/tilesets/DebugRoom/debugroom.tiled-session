@@ -17,47 +17,47 @@
             "scaleInDock": 1
         },
         "debugroomtile1.json": {
-            "scale": 0.33,
-            "selectedLayer": 0,
+            "scale": 0.25,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1881.818181818182,
-                "y": 672.7272727272726
+                "x": 3616,
+                "y": 1016
             }
         },
         "debugroomtile1.json#tilesetDebugLv1_2": {
-            "scaleInDock": 3,
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "debugroomtile1.tmj": {
             "scale": 0.104248046875,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 4796.252927400468,
-                "y": 805.7704918032787
+                "x": 3299.8220140515223,
+                "y": 930.473067915691
             }
         },
         "debugroomtile1.tmj#tilesetDebugLv1_2": {
             "scaleInDock": 1
         },
         "debugroomtile1.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 3,
+            "scale": 0.25,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 651.5151515151516,
-                "y": 921.2121212121211
+                "x": 4784,
+                "y": 1324
             }
         },
         "debugroomtile1.tmx#tilesetDebugLv1_2": {
-            "scaleInDock": 0.5,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "tilesetDebugLv1_2.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 0.5,
             "scaleInEditor": 1
         }
     },
     "frame.defaultDuration": 400,
-    "last.exportedFilePath": "F:/MIG/M.I.G-Proyect/build/assets/tilesets/DebugRoom",
+    "last.exportedFilePath": "D:/ProyectoMIGVideojuegos/M.I.G-Proyect/build/assets/tilesets/DebugRoom",
     "last.externalTilesetPath": "D:/Videojuegos/Proyect_MIG/M.I.G/build/assets/tilesets/DebugRoom",
     "last.imagePath": "D:/Videojuegos/Proyect_MIG/M.I.G/build/assets/tilesets/DebugRoom",
     "map.height": 50,
@@ -65,15 +65,14 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 300,
     "openFiles": [
-        "debugroomtile1.json",
-        "tilesetDebugLv1_2.tsx"
+        "debugroomtile1.json"
     ],
     "project": "debugroom.tiled-project",
     "recentFiles": [
-        "tilesetDebugLv1_2.tsx",
         "debugroomtile1.json",
         "debugroomtile1.tmx",
-        "debugroomtile1.tmj"
+        "debugroomtile1.tmj",
+        "tilesetDebugLv1_2.tsx"
     ],
     "resizeMap.removeObjects": true,
     "tileset.embedInMap": true,
