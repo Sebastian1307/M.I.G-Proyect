@@ -18,7 +18,6 @@ class debugRoom extends Phaser.Scene {
     const layer3 = map.createLayer("Background", tiles, 0, 0);
     const layer4 = map.createLayer("Dangers", tiles, 0, 0);
     const layer1 = map.createLayer("MidGround", tiles, 0, 0);
-
     layer1.setCollisionByExclusion([-1]);
 
     const layer2 = map.createLayer("Foreground", tiles, 0, 0);
@@ -129,17 +128,23 @@ class debugRoom extends Phaser.Scene {
     //---------------------
     //ENEMIGOS
     this.enemiesGroup = this.physics.add.group();
-    this.enemy1 = new Enemy(this, 500, 1380, "enemy1", 3, 150, 1);
-    this.enemiesGroup.add(this.enemy1);
 
-    this.enemy2 = new Enemy(this, 550, 1380, "enemy1", 3, 150, 1);
-    this.enemiesGroup.add(this.enemy2);
+    this.boss = new Enemy(this, 6858, 584, "enemy1", 30, 40, 4);
+    this.enemiesGroup.add(this.boss);
 
-    this.enemy3 = new Enemy(this, 600, 1380, "enemy1", 10, 60, 2);
-    this.enemiesGroup.add(this.enemy3);
+    this.grunt1 = new Enemy(this, 4279, 1384, "enemy1", 5, 100, 1);
+    this.enemiesGroup.add(this.grunt1);
 
-    this.enemy4 = new Enemy(this, 1900, 850, "enemy1", 5, 100, 3);
-    this.enemiesGroup.add(this.enemy4);
+    this.runner1 = new Enemy(this, 5296, 1200, "enemy1", 3, 150, 2);
+    this.enemiesGroup.add(this.runner1);
+    this.runner2 = new Enemy(this, 5094, 1200, "enemy1", 3, 150, 2);
+    this.enemiesGroup.add(this.runner2);
+
+    this.tank1 = new Enemy(this, 5545, 850, "enemy1", 10, 60, 3);
+    this.enemiesGroup.add(this.tank1);
+
+    this.tank2 = new Enemy(this, 5545, 850, "enemy1", 10, 60, 3);
+    this.enemiesGroup.add(this.tank2);
 
     this.physics.add.collider(this.enemiesGroup, layer1);
     this.physics.add.collider(this.enemiesGroup, this.enemiesGroup);
@@ -187,7 +192,7 @@ class debugRoom extends Phaser.Scene {
       this.cameras.main.scrollX + 100,
       this.cameras.main.scr2llY + 50,
 
-      "Version Alpha V.1.1",
+      "Version Alpha V.1.2",
       { fontSize: "16px", fill: "#ffffff" }
     );
 

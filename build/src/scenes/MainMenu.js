@@ -114,7 +114,7 @@ class MainMenu extends Phaser.Scene {
       hudMenu.x + effectiveWidth / 2, // Alinea el texto al centro horizontalmente
       hudMenu.y + 260,
       "pixelFont",
-      "Build Version Alpha V.1.1",
+      "Build Version Alpha V.1.2",
       24
     );
     versionText.setOrigin(0.5);

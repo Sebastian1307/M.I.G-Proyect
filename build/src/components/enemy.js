@@ -31,6 +31,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       1: 0xff0000, // Rojo
       2: 0x00ff00, // Verde
       3: 0x0000ff, // Azul
+      4: 0x800080, //Morado
       // Añade más colores según necesites
     };
 
